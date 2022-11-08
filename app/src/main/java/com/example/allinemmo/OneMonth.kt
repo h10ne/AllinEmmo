@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.Adapter.EmmoRecyclerViewAdapter
+import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,17 +39,38 @@ class NumberFragment : Fragment() {
             emmo.layoutManager =
                 GridLayoutManager(requireContext(), if (countDays > 7) 7 else countDays)
             val adapter = EmmoRecyclerViewAdapter()
-            adapter.setItems(GetEmmotions(countDays))
+            adapter.setItems(GetItemsForAdapter(countDays, yearAndMonth[0].toInt(), yearAndMonth[2].toInt(), yearAndMonth[3].toInt()))
 
             emmo.adapter = adapter
         }
     }
 
-    private fun GetEmmotions(count: Int): ArrayList<Emmotion> {
+    private fun GetItemsForAdapter(count: Int, year: Int, month: Int, firstDayOfWeek: Int): ArrayList<Emmotion?>
+    {
+        var list = ArrayList<Emmotion?>()
+        for (i in 1..firstDayOfWeek - 1)
+        {
+            list.add(null)
+        }
+        val list2 = GetEmmotions(count, year, month)
+        list.addAll(list2)
+        return list
+    }
+
+    private fun GetEmmotions(count: Int, year: Int, month: Int): ArrayList<Emmotion> {
         val list = ArrayList<Emmotion>()
 
+        val helper = DBHelper(requireContext(), null)
+        val emmoList = helper.getEmmoByYearAndMonth(year, month).toSet()
+
         for (i in 1..count) {
-            list.add(Emmotion(i, 0, "", Date()))
+            val emmotion = emmoList.find {
+                it.day == i
+            }
+
+            list.add(
+                emmotion ?: Emmotion(0, 0, "", Date(), i)
+            )
         }
         return list
     }

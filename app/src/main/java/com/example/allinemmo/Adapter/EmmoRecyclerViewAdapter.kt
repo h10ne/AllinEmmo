@@ -1,6 +1,7 @@
 package com.example.allinemmo.Adapter
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,33 +9,42 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.HomeActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
 
 class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.EmmoHolder>() {
-    private var emmotions: ArrayList<Emmotion> = ArrayList()
+    private var emmotions: ArrayList<Emmotion?> = ArrayList()
     class EmmoHolder(item:View) : RecyclerView.ViewHolder(item)
     {
         val img = item.findViewById<ImageView>(R.id.oneEmmo)
         val dayCount = item.findViewById<TextView>(R.id.countDay)
-        fun bind(emmo:Emmotion)
+        fun bind(emmo:Emmotion?)
         {
-            dayCount.text = emmo.date.day.toString()
-            img.setImageResource(R.drawable.empty_circle)
+            if(emmo == null)
+            {
+                return
+            }
+            img.setBackgroundColor(R.color.pink)
+
+            if(emmo.imageId == 0)
+                dayCount.text = emmo.day.toString()
+
+            img.setImageResource(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId))
         }
     }
 
-    fun setItems(marks: ArrayList<Emmotion>) {
+    fun setItems(marks: ArrayList<Emmotion?>) {
         clearItems()
         this.emmotions.addAll(marks)
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun clearItems() {
         emmotions.clear()
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmmoHolder {
@@ -48,9 +58,12 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         holder.bind(emmotions[position])
 
         holder.itemView.setOnClickListener {
-            val intent =  Intent(it.context, EmotionListActivity::class.java)
-            it.context.startActivity(intent)
-            Toast.makeText(it.context, "Клик на кружок", Toast.LENGTH_SHORT).show()
+            if(emmotions[position] != null)
+            {
+                val intent =  Intent(it.context, EmotionListActivity::class.java)
+                it.context.startActivity(intent)
+                Toast.makeText(it.context, "Клик на кружок", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

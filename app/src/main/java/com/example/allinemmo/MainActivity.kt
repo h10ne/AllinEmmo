@@ -25,9 +25,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun Createdatabase() {
         val helper = DBHelper(this, null)
-        val date = Date()
+        helper.recreate()
+        var date = GregorianCalendar(2022, 10, 1).time
         helper.addEmmotion(1, "Все супер", date)
-        val emmo = helper.getEmmoById(1);
+        date = GregorianCalendar(2022, 10, 2).time
+        helper.addEmmotion(2, "Все супер", date)
+        date = GregorianCalendar(2022, 10, 3).time
+        helper.addEmmotion(3, "Все супер", date)
+        date = GregorianCalendar(2022, 10, 4).time
+        helper.addEmmotion(4, "Все супер", date)
+        val emmo = helper.getEmmoById(1)
+        val emmoList = helper.getEmmoByYearAndMonth(2022, 10)
     }
 
     private fun getRandomTint(): String? {
