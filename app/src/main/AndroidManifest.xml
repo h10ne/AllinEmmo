@@ -15,6 +15,20 @@
         android:theme="@style/Theme.Allinemmo"
         tools:targetApi="31">
         <activity
+            android:name=".EditEmotion"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ChooseEmmo"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".EmotionListActivity"
             android:exported="false">
             <meta-data

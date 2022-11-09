@@ -38,7 +38,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
-    fun recreate(){
+    fun recreate() {
         val db = this.writableDatabase
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
@@ -91,6 +91,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.close()
     }
 
+    fun deleteEmmoById(id: Int): Boolean {
+        val db = this.writableDatabase
+        var isDel = db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
+        return isDel
+    }
+
     // below method is to get
     // all data from our database
     fun getEmmoById(emmoId: Int): Emmotion? {
@@ -107,17 +113,18 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return null
     }
 
-    fun getEmmoByYearAndMonth(year:Int, month:Int):ArrayList<Emmotion>
-    {
+    fun getEmmoByYearAndMonth(year: Int, month: Int): ArrayList<Emmotion> {
         val list = ArrayList<Emmotion>()
         val db = this.readableDatabase
-        db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $MONTH = ? AND $YEAR = ?", arrayOf(month.toString(), year.toString()))
+        db.rawQuery(
+            "SELECT * FROM $TABLE_NAME WHERE $MONTH = ? AND $YEAR = ? ORDER BY $DAY",
+            arrayOf(month.toString(), year.toString())
+        )
             .use {
                 if (it.moveToFirst()) {
                     list.add(formatCursor(it))
                 }
-                while(it.moveToNext())
-                {
+                while (it.moveToNext()) {
                     list.add(formatCursor(it))
                 }
                 it.close()

@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }, 2000)
-        Createdatabase()
+        //Createdatabase()
     }
 
     private fun Createdatabase() {

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.allinemmo.ChooseEmmo
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.HomeActivity
@@ -58,11 +59,21 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         holder.bind(emmotions[position])
 
         holder.itemView.setOnClickListener {
-            if(emmotions[position] != null)
+            val emmo = emmotions[position]
+            if(emmo != null)
             {
-                val intent =  Intent(it.context, EmotionListActivity::class.java)
-                it.context.startActivity(intent)
-                Toast.makeText(it.context, "Клик на кружок", Toast.LENGTH_SHORT).show()
+                if(emmo.emmotionId == 0)
+                {
+                    val intent =  Intent(it.context, ChooseEmmo::class.java)
+                    intent.putExtra("date", emmo.date)
+                    it.context.startActivity(intent)
+                }
+                else
+                {
+                    val intent =  Intent(it.context, EmotionListActivity::class.java)
+                    intent.putExtra("date", emmo.date)
+                    it.context.startActivity(intent)
+                }
             }
         }
     }

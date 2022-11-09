@@ -7,9 +7,9 @@
     tools:context=".EmotionListActivity">
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/emmolist_back_btn"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
@@ -27,7 +27,7 @@
         android:layout_weight="2"
         android:text="Ноябрь"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

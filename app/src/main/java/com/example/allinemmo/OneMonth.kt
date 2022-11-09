@@ -19,6 +19,12 @@ const val DAYS = "daysInMonth"
 
 class NumberFragment : Fragment() {
 
+    private lateinit var yearAndMonth:List<String>
+    private var countDays = 0
+    private lateinit var year:TextView
+    private lateinit var month:TextView
+    private lateinit var emmo:RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,36 +34,40 @@ class NumberFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            val year = view.findViewById<TextView>(R.id.yearTV)
-            val month = view.findViewById<TextView>(R.id.monthTV)
-            val emmo = view.findViewById<RecyclerView>(R.id.emmoRV)
-            val yearAndMonth = getString(ARG_OBJECT).toString().split(" ")
-            val countDays = getInt(DAYS)
+            year = view.findViewById<TextView>(R.id.yearTV)
+            month = view.findViewById<TextView>(R.id.monthTV)
+            emmo = view.findViewById<RecyclerView>(R.id.emmoRV)
+            yearAndMonth = getString(ARG_OBJECT).toString().split(" ")
+            countDays = getInt(DAYS)
+
             year.text = yearAndMonth[0]
             month.text = yearAndMonth[1]
-
-            emmo.layoutManager =
-                GridLayoutManager(requireContext(), if (countDays > 7) 7 else countDays)
-            val adapter = EmmoRecyclerViewAdapter()
-            adapter.setItems(GetItemsForAdapter(countDays, yearAndMonth[0].toInt(), yearAndMonth[2].toInt(), yearAndMonth[3].toInt()))
-
-            emmo.adapter = adapter
         }
     }
 
-    private fun GetItemsForAdapter(count: Int, year: Int, month: Int, firstDayOfWeek: Int): ArrayList<Emmotion?>
+    override fun onResume() {
+        emmo.layoutManager =
+            GridLayoutManager(requireContext(), /*if (countDays > 7) 7 else countDays*/ 7)
+        val adapter = EmmoRecyclerViewAdapter()
+        adapter.setItems(getItemsForAdapter(countDays, yearAndMonth[0].toInt(), yearAndMonth[2].toInt(), yearAndMonth[3].toInt()))
+
+        emmo.adapter = adapter
+        super.onResume()
+    }
+
+    private fun getItemsForAdapter(count: Int, year: Int, month: Int, firstDayOfWeek: Int): ArrayList<Emmotion?>
     {
-        var list = ArrayList<Emmotion?>()
-        for (i in 1..firstDayOfWeek - 1)
+        val list = ArrayList<Emmotion?>()
+        for (i in 1 until firstDayOfWeek)
         {
             list.add(null)
         }
-        val list2 = GetEmmotions(count, year, month)
+        val list2 = getEmmotions(count, year, month)
         list.addAll(list2)
         return list
     }
 
-    private fun GetEmmotions(count: Int, year: Int, month: Int): ArrayList<Emmotion> {
+    private fun getEmmotions(count: Int, year: Int, month: Int): ArrayList<Emmotion> {
         val list = ArrayList<Emmotion>()
 
         val helper = DBHelper(requireContext(), null)
@@ -69,7 +79,7 @@ class NumberFragment : Fragment() {
             }
 
             list.add(
-                emmotion ?: Emmotion(0, 0, "", Date(), i)
+                emmotion ?: Emmotion(0, 0, "", Date(year - 1900, month - 1, i), i)
             )
         }
         return list

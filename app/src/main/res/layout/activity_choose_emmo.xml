@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChooseEmmo">
+
+    <ImageButton
+        android:id="@+id/emmo_happy_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_happy"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="0"
+        app:layout_constraintCircleRadius="140dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_angry_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_angry"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="45"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_haha_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_haha"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="90"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_horny_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_horny"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="135"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_normal_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_normal"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="180"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_tears_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_tears"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="225"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_wow_sad_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_wow_sad"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="270"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <ImageButton
+        android:id="@+id/emmo_love_circle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:src="@drawable/emmo_love"
+        app:layout_constraintCircle="@+id/center_image"
+        app:layout_constraintCircleAngle="315"
+        app:layout_constraintCircleRadius="130dp" />
+
+    <TextView
+        android:id="@+id/center_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="240dp"
+        android:text="Какой ты сегодня?"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
