@@ -13,6 +13,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_happy"
+        android:tag="@drawable/emmo_happy"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="0"
         app:layout_constraintCircleRadius="140dp" />
@@ -24,6 +25,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_angry"
+        android:tag="@drawable/emmo_angry"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="45"
         app:layout_constraintCircleRadius="130dp" />
@@ -35,6 +37,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_haha"
+        android:tag="@drawable/emmo_haha"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="90"
         app:layout_constraintCircleRadius="130dp" />
@@ -46,6 +49,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_horny"
+        android:tag="@drawable/emmo_horny"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="135"
         app:layout_constraintCircleRadius="130dp" />
@@ -57,6 +61,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_normal"
+        android:tag="@drawable/emmo_normal"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="180"
         app:layout_constraintCircleRadius="130dp" />
@@ -68,6 +73,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_tears"
+        android:tag="@drawable/emmo_tears"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="225"
         app:layout_constraintCircleRadius="130dp" />
@@ -79,6 +85,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_wow_sad"
+        android:tag="@drawable/emmo_wow_sad"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="270"
         app:layout_constraintCircleRadius="130dp" />
@@ -90,6 +97,7 @@
         android:scaleType="fitXY"
         android:background="@null"
         android:src="@drawable/emmo_love"
+        android:tag="@drawable/emmo_love"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="315"
         app:layout_constraintCircleRadius="130dp" />

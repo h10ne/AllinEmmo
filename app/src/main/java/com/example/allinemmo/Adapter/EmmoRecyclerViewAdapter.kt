@@ -65,7 +65,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                 if(emmo.emmotionId == 0)
                 {
                     val intent =  Intent(it.context, ChooseEmmo::class.java)
-                    intent.putExtra("date", emmo.date)
+                    intent.putExtra("emmo", emmo)
                     it.context.startActivity(intent)
                 }
                 else

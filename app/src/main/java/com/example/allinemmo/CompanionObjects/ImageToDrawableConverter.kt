@@ -31,4 +31,18 @@ object ImageToDrawableConverter {
         }
         return 0
     }
+
+    fun FromDrawableToDrawable(drawable: Int): Int {
+        when (drawable) {
+            R.drawable.emmo_happy -> return R.drawable.emmo_happy
+            R.drawable.emmo_haha -> return R.drawable.emmo_haha
+            R.drawable.emmo_horny -> return R.drawable.emmo_horny
+            R.drawable.emmo_angry -> return R.drawable.emmo_angry
+            R.drawable.emmo_normal -> return R.drawable.emmo_normal
+            R.drawable.emmo_tears -> return R.drawable.emmo_tears
+            R.drawable.emmo_wow_sad -> return R.drawable.emmo_wow_sad
+            R.drawable.emmo_love -> return R.drawable.emmo_love
+        }
+        return 0
+    }
 }
