@@ -83,7 +83,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(DAY, day)
         val db = this.writableDatabase
         db.update(
-            DATABASE_NAME,
+            TABLE_NAME,
             values,
             "$ID_COL = ?",
             arrayOf(emmoId.toString())
@@ -93,8 +93,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     fun deleteEmmoById(id: Int): Boolean {
         val db = this.writableDatabase
-        var isDel = db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
-        return isDel
+        return db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
     }
 
     // below method is to get

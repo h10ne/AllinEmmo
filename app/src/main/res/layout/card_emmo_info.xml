@@ -22,6 +22,18 @@
             android:background="@color/cardview_light_background"
             android:padding="5dp">
 
+            <TextView
+                android:id="@+id/emmo_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:text="Имя эмоции"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/person_photo" />
+
             <ImageView
                 android:id="@+id/person_photo"
                 android:layout_width="100dp"
@@ -37,19 +49,22 @@
                 android:id="@+id/emmo_text_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
+                android:paddingBottom="15dp"
                 android:text="Как обычно все клубнично"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/person_photo" />
+                app:layout_constraintTop_toBottomOf="@+id/emmo_name" />
 
             <TextView
                 android:id="@+id/day_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
                 android:text="6 нояб"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +74,9 @@
                 android:id="@+id/dayweek_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="12dp"
+                android:textSize="16sp"
+                android:layout_marginTop="3dp"
                 android:text="вс"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"

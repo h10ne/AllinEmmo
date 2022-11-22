@@ -16,6 +16,17 @@ class EmotionListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_list)
         supportActionBar?.hide()
+
+
+        val bck = findViewById<ImageButton>(R.id.emmolist_back_btn)
+
+        bck.setOnClickListener {
+            finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         val cv = findViewById<RecyclerView>(R.id.emmotions_card_rv)
         cv.layoutManager = LinearLayoutManager(baseContext)
         val adapter = EmmotionsListAdapter(this)
@@ -28,12 +39,6 @@ class EmotionListActivity : AppCompatActivity() {
         adapter.setItems(marks)
         cv.adapter = adapter
 
-
-        val bck = findViewById<ImageButton>(R.id.emmolist_back_btn)
-
-        bck.setOnClickListener {
-            finish()
-        }
     }
 
     private fun getMarks(year: Int, month: Int): ArrayList<Emmotion> {

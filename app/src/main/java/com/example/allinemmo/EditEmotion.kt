@@ -2,12 +2,14 @@ package com.example.allinemmo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
+import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +29,13 @@ class EditEmotion : AppCompatActivity() {
         day = findViewById<TextView>(R.id.day_card)
         dayweek = findViewById<TextView>(R.id.dayweek_card)
         text = findViewById<EditText>(R.id.emmo_text_card)
+        val clock_btn = findViewById<ImageButton>(R.id.clock_btn)
+
+        clock_btn.setOnClickListener {
+            val sdf = SimpleDateFormat("hh:mm", Locale.getDefault())
+            val currentDate = sdf.format(Date())
+            text.text.append(currentDate + "\n")
+        }
 
         val emmo = intent.extras?.get("emmo") as Emmotion
 
@@ -36,6 +45,24 @@ class EditEmotion : AppCompatActivity() {
         dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
             .uppercase(Locale.getDefault())
         img.setImageResource(emmo.imageId)
-        val a = 1
+        val saveEmmo = findViewById<ImageView>(R.id.apply_btn)
+
+        saveEmmo.setOnClickListener {
+            saveToDb(emmo.emmotionId, emmo.imageId, text.text.toString(), emmo.date)
+        }
+    }
+
+    private fun saveToDb(emmotionId:Int, imageId: Int, text: String, day: Date) {
+        val helper = DBHelper(baseContext, null)
+        if(emmotionId == 0)
+        {
+            helper.addEmmotion(ImageToDrawableConverter.FromDrawableToImageId(imageId), text, day)
+        }
+        else
+        {
+            helper.updateEmmotion(emmotionId, ImageToDrawableConverter.FromDrawableToImageId(imageId), text, day)
+
+        }
+        finish()
     }
 }

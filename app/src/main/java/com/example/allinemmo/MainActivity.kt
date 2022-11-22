@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.allinemmo.DataBase.DBHelper
 import java.util.*
 
@@ -15,11 +16,12 @@ class MainActivity : AppCompatActivity() {
         val multiline = findViewById<TextView>(R.id.multilineSplash)
         multiline.text = getRandomTint()
         supportActionBar?.hide()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         Handler().postDelayed({
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 0)
         //Createdatabase()
     }
 

@@ -50,8 +50,10 @@ class ChooseEmmo : AppCompatActivity() {
 
     private fun handleClick(it: ImageButton, imgId: Int) {
         emmo.imageId = imgId
+
         val intent =  Intent(it.context, EditEmotion::class.java)
         intent.putExtra("emmo", emmo)
         it.context.startActivity(intent)
+        finish()
     }
 }

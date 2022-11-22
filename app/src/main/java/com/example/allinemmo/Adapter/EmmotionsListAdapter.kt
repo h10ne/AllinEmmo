@@ -1,6 +1,7 @@
 package com.example.allinemmo.Adapter
 
 import android.app.Dialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
+import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
@@ -29,8 +31,10 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
         val dayweek = item.findViewById<TextView>(R.id.dayweek_card)
         val text = item.findViewById<TextView>(R.id.emmo_text_card)
         val bin = item.findViewById<ImageButton>(R.id.bin_emmo)
+        val emmoName = item.findViewById<TextView>(R.id.emmo_name)
         fun bind(emmo: Emmotion, emmotionsListAdapter: EmmotionsListAdapter) {
             text.text = emmo.text
+            emmoName.text = ImageToDrawableConverter.GetEmmoNameById(emmo.imageId)
             day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
             dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
                 .uppercase(Locale.getDefault())
@@ -91,7 +95,12 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
         holder.bind(emmotions[position], this)
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(it.context, "Клик на кружок", Toast.LENGTH_SHORT).show()
+            val emmo = emmotions[position]
+
+            emmo.imageId = ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)
+            val intent =  Intent(it.context, EditEmotion::class.java)
+            intent.putExtra("emmo", emmo)
+            it.context.startActivity(intent)
         }
     }
 
