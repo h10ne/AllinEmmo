@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pink"
     tools:context=".ChooseEmmo">
 
     <ImageButton
@@ -36,8 +37,8 @@
         android:layout_height="80dp"
         android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/emmo_haha"
-        android:tag="@drawable/emmo_haha"
+        android:src="@drawable/emmo_confused"
+        android:tag="@drawable/emmo_confused"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="90"
         app:layout_constraintCircleRadius="130dp" />
@@ -48,8 +49,8 @@
         android:layout_height="80dp"
         android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/emmo_horny"
-        android:tag="@drawable/emmo_horny"
+        android:src="@drawable/emmo_perfect"
+        android:tag="@drawable/emmo_perfect"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="135"
         app:layout_constraintCircleRadius="130dp" />
@@ -72,8 +73,8 @@
         android:layout_height="80dp"
         android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/emmo_tears"
-        android:tag="@drawable/emmo_tears"
+        android:src="@drawable/emmo_sad"
+        android:tag="@drawable/emmo_sad"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="225"
         app:layout_constraintCircleRadius="130dp" />
@@ -84,8 +85,8 @@
         android:layout_height="80dp"
         android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/emmo_wow_sad"
-        android:tag="@drawable/emmo_wow_sad"
+        android:src="@drawable/emmo_excited"
+        android:tag="@drawable/emmo_excited"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="270"
         app:layout_constraintCircleRadius="130dp" />
@@ -96,8 +97,8 @@
         android:layout_height="80dp"
         android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/emmo_love"
-        android:tag="@drawable/emmo_love"
+        android:src="@drawable/emmo_tired"
+        android:tag="@drawable/emmo_tired"
         app:layout_constraintCircle="@+id/center_image"
         app:layout_constraintCircleAngle="315"
         app:layout_constraintCircleRadius="130dp" />

@@ -28,7 +28,6 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
             {
                 return
             }
-            img.setBackgroundColor(R.color.pink)
 
             if(emmo.imageId == 0)
                 dayCount.text = emmo.day.toString()

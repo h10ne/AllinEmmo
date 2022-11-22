@@ -1,19 +1,18 @@
 package com.example.allinemmo.CompanionObjects
 
-import android.graphics.drawable.Drawable
 import com.example.allinemmo.R
 
 object ImageToDrawableConverter {
     fun FromImageIdToDrawable(imageId: Int): Int {
         when (imageId) {
             1 -> return R.drawable.emmo_happy
-            2 -> return R.drawable.emmo_haha
-            3 -> return R.drawable.emmo_horny
+            2 -> return R.drawable.emmo_confused
+            3 -> return R.drawable.emmo_perfect
             4 -> return R.drawable.emmo_angry
             5 -> return R.drawable.emmo_normal
-            6 -> return R.drawable.emmo_tears
-            7 -> return R.drawable.emmo_wow_sad
-            8 -> return R.drawable.emmo_love
+            6 -> return R.drawable.emmo_sad
+            7 -> return R.drawable.emmo_excited
+            8 -> return R.drawable.emmo_tired
         }
         return R.drawable.empty_circle
     }
@@ -21,18 +20,28 @@ object ImageToDrawableConverter {
     fun FromDrawableToImageId(drawable: Int): Int {
         when (drawable) {
             R.drawable.emmo_happy -> return 1
-            R.drawable.emmo_haha -> return 2
-            R.drawable.emmo_horny -> return 3
+            R.drawable.emmo_confused -> return 2
+            R.drawable.emmo_perfect -> return 3
             R.drawable.emmo_angry -> return 4
             R.drawable.emmo_normal -> return 5
-            R.drawable.emmo_tears -> return 6
-            R.drawable.emmo_wow_sad -> return 7
-            R.drawable.emmo_love -> return 8
+            R.drawable.emmo_sad -> return 6
+            R.drawable.emmo_excited -> return 7
+            R.drawable.emmo_tired -> return 8
         }
         return 0
     }
 
     fun GetEmmoNameById(imageId: Int): String {
-        return "Emmo name"
+        when (imageId) {
+            1 -> return "Все отлично!"
+            2 -> return "Растерян"
+            3 -> return "Чертовски хорош B-)"
+            4 -> return "Злюся!"
+            5 -> return "Пойдет..."
+            6 -> return "Грущу(("
+            7 -> return "Взволнован"
+            8 -> return "Устяль..."
+        }
+        return "???"
     }
 }

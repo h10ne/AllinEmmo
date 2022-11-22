@@ -39,13 +39,13 @@ class ChooseEmmo : AppCompatActivity() {
 
     private fun setOnItemClick() {
         emmo1.setOnClickListener { handleClick(emmo1, R.drawable.emmo_angry) }
-        emmo2.setOnClickListener { handleClick(emmo2, R.drawable.emmo_haha) }
+        emmo2.setOnClickListener { handleClick(emmo2, R.drawable.emmo_confused) }
         emmo3.setOnClickListener { handleClick(emmo3, R.drawable.emmo_happy) }
-        emmo4.setOnClickListener { handleClick(emmo4, R.drawable.emmo_horny) }
-        emmo5.setOnClickListener { handleClick(emmo5, R.drawable.emmo_love) }
+        emmo4.setOnClickListener { handleClick(emmo4, R.drawable.emmo_perfect) }
+        emmo5.setOnClickListener { handleClick(emmo5, R.drawable.emmo_tired) }
         emmo6.setOnClickListener { handleClick(emmo6, R.drawable.emmo_normal) }
-        emmo7.setOnClickListener { handleClick(emmo7, R.drawable.emmo_tears) }
-        emmo8.setOnClickListener { handleClick(emmo8, R.drawable.emmo_wow_sad) }
+        emmo7.setOnClickListener { handleClick(emmo7, R.drawable.emmo_sad) }
+        emmo8.setOnClickListener { handleClick(emmo8, R.drawable.emmo_excited) }
     }
 
     private fun handleClick(it: ImageButton, imgId: Int) {
