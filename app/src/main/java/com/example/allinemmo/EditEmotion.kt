@@ -11,6 +11,7 @@ import androidx.annotation.DrawableRes
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,6 +30,7 @@ class EditEmotion : AppCompatActivity() {
         day = findViewById<TextView>(R.id.day_card)
         dayweek = findViewById<TextView>(R.id.dayweek_card)
         text = findViewById<EditText>(R.id.emmo_text_card)
+        val emmoName = findViewById<TextView>(R.id.emmo_name)
         val clock_btn = findViewById<ImageButton>(R.id.clock_btn)
 
         clock_btn.setOnClickListener {
@@ -38,6 +40,7 @@ class EditEmotion : AppCompatActivity() {
         }
 
         val emmo = intent.extras?.get("emmo") as Emmotion
+        emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId))
 
         text.setSelection(0)
         text.setText(emmo.text)
