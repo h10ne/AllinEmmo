@@ -13,13 +13,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#cccccc"
-        app:strokeWidth="2dp">
+        app:strokeColor="#ed89a7"
+        app:strokeWidth="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
+            android:background="@color/pink_dark"
             android:padding="5dp">
 
             <TextView
