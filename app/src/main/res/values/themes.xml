@@ -15,5 +15,6 @@
 
         <item name="background">@drawable/app_background</item>
         <item name="android:windowBackground">@drawable/app_background</item>
+
     </style>
 </resources>

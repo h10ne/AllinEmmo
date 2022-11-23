@@ -2,6 +2,7 @@ package com.example.allinemmo.Adapter
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.Window
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
@@ -17,6 +19,7 @@ import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
+import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,6 +38,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
         val bin = item.findViewById<ImageButton>(R.id.bin_emmo)
         val emmoName = item.findViewById<TextView>(R.id.emmo_name)
         val emmo_img = item.findViewById<ImageView>(R.id.emmo_image)
+        val imgBack = item.findViewById<CardView>(R.id.cardImgBack)
 
         fun bind(emmo: Emmotion, emmotionsListAdapter: EmmotionsListAdapter) {
             text.text = emmo.text
@@ -45,7 +49,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
 
             if(emmo.imageSource != "")
             {
-                emmo_img.visibility = View.VISIBLE
+                imgBack.visibility = View.VISIBLE
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                 emmo_img.setImageBitmap(myBitmap)
@@ -56,6 +60,14 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             }
 
             img.setImageResource(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId))
+
+            emmo_img.setOnClickListener {
+                val imgFile = File(emmo.imageSource)
+                val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                StfalconImageViewer.Builder<Bitmap>(emotionListActivity, arrayOf(myBitmap)) { view, image ->
+                    view.setImageBitmap(image)
+                }.show()
+            }
         }
 
         private fun RemoveEmmo(emmo: Emmotion, adapter: EmmotionsListAdapter) {

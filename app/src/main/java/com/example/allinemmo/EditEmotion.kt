@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -14,11 +13,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -33,6 +34,7 @@ class EditEmotion : AppCompatActivity() {
     private lateinit var text: EditText
     private lateinit var photo: ImageButton
     private lateinit var emmoImage: ImageView
+    private lateinit var imgBack: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,8 @@ class EditEmotion : AppCompatActivity() {
         dayweek = findViewById<TextView>(R.id.dayweek_card)
         text = findViewById<EditText>(R.id.emmo_text_card)
         photo = findViewById(R.id.gallery_btn)
+        imgBack = findViewById<CardView>(R.id.cardImgBack)
+        val removeImgBtn = findViewById<ImageButton>(R.id.removeImgSrcBtn)
 
         val emmo = intent.extras?.get("emmo") as Emmotion
         val selectImageIntent = registerForActivityResult(ActivityResultContracts.GetContent())
@@ -55,7 +59,7 @@ class EditEmotion : AppCompatActivity() {
 
         if(emmo.imageSource != "")
         {
-            emmoImage.visibility = View.VISIBLE
+            imgBack.visibility = View.VISIBLE
             val imgFile = File(emmo.imageSource)
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             emmoImage.setImageBitmap(myBitmap)
@@ -68,6 +72,20 @@ class EditEmotion : AppCompatActivity() {
             val sdf = SimpleDateFormat("hh:mm", Locale.getDefault())
             val currentDate = sdf.format(Date())
             text.text.append(currentDate + "\n")
+        }
+
+        removeImgBtn.setOnClickListener {
+            emmo.imageSource = ""
+            emmo.imageId = ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId)
+            imgBack.visibility = View.GONE
+        }
+
+        emmoImage.setOnClickListener {
+            val imgFile = File(emmo.imageSource)
+            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            StfalconImageViewer.Builder<Bitmap>(this, arrayOf(myBitmap)) { view, image ->
+                view.setImageBitmap(image)
+            }.show()
         }
 
         emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId))
@@ -129,7 +147,7 @@ class EditEmotion : AppCompatActivity() {
                 val db = DBHelper(this, null)
                 emmo.imageSource = file.absolutePath
                 //db.updateEmmotion(emmo)
-                emmoImage.visibility = View.VISIBLE
+                imgBack.visibility = View.VISIBLE
             } catch (e: Exception) {
                 e.printStackTrace()
             }
