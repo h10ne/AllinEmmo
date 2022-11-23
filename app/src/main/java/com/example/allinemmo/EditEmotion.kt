@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -21,6 +22,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
 import java.io.FileOutputStream
@@ -46,7 +48,8 @@ class EditEmotion : AppCompatActivity() {
                 val imgId = result.data?.getIntExtra("imgId", -1)
                 emmo.imageId = imgId!!
 
-                img.setImageResource(imgId)
+                Picasso.get().load(imgId).fit().centerCrop()
+                    .into(img)
                 emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(imgId!!))
             }
         }
@@ -76,11 +79,12 @@ class EditEmotion : AppCompatActivity() {
         {
             imgBack.visibility = View.VISIBLE
             val imgFile = File(emmo.imageSource)
-            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            emmoImage.setImageBitmap(myBitmap)
+
+            Picasso.get().load(imgFile).fit().centerCrop()
+                .into(emmoImage)
         }
 
-        emmoName = findViewById<TextView>(R.id.emmo_name)
+        emmoName = findViewById(R.id.emmo_name)
         val clock_btn = findViewById<ImageButton>(R.id.clock_btn)
 
         clock_btn.setOnClickListener {
@@ -98,8 +102,8 @@ class EditEmotion : AppCompatActivity() {
         emmoImage.setOnClickListener {
             val imgFile = File(emmo.imageSource)
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            StfalconImageViewer.Builder<Bitmap>(this, arrayOf(myBitmap)) { view, image ->
-                view.setImageBitmap(image)
+            StfalconImageViewer.Builder(this, arrayOf(myBitmap)) { view, _ ->
+                Picasso.get().load(imgFile).into(view)
             }.show()
         }
 
@@ -110,7 +114,8 @@ class EditEmotion : AppCompatActivity() {
         day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
         dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
             .uppercase(Locale.getDefault())
-        img.setImageResource(emmo.imageId)
+        Picasso.get().load(emmo.imageId).fit().centerCrop()
+            .into(img)
         val saveEmmo = findViewById<ImageView>(R.id.apply_btn)
 
         saveEmmo.setOnClickListener {

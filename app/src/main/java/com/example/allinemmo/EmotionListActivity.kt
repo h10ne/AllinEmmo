@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.Adapter.EmmotionsListAdapter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 

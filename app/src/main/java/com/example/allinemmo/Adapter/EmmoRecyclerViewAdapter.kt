@@ -15,6 +15,7 @@ import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.HomeActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
+import com.squareup.picasso.Picasso
 
 class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.EmmoHolder>() {
     private var emmotions: ArrayList<Emmotion?> = ArrayList()
@@ -32,19 +33,18 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
             if(emmo.imageId == 0)
                 dayCount.text = emmo.day.toString()
 
-            img.setImageResource(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId))
+            Picasso.get().load(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)).fit().centerCrop()
+                .into(img)
         }
     }
 
     fun setItems(marks: ArrayList<Emmotion?>) {
         clearItems()
         this.emmotions.addAll(marks)
-        //notifyDataSetChanged()
     }
 
     fun clearItems() {
         emmotions.clear()
-        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmmoHolder {

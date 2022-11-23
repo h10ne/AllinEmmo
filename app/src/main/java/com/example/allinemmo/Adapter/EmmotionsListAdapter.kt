@@ -21,6 +21,7 @@ import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,24 +55,25 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             if (emmo.imageSource != "") {
                 imgBack.visibility = View.VISIBLE
                 val imgFile = File(emmo.imageSource)
-                val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                emmo_img.setImageBitmap(myBitmap)
+                Picasso.get().load(imgFile).fit().centerCrop()
+                    .into(emmo_img);
             }
 
             bin.setOnClickListener {
                 RemoveEmmo(emmo, emmotionsListAdapter)
             }
 
-            img.setImageResource(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId))
+            Picasso.get().load(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)).fit().centerCrop()
+                .into(img)
 
             emmo_img.setOnClickListener {
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                StfalconImageViewer.Builder<Bitmap>(
+                StfalconImageViewer.Builder(
                     emotionListActivity,
                     arrayOf(myBitmap)
-                ) { view, image ->
-                    view.setImageBitmap(image)
+                ) { view, _ ->
+                    Picasso.get().load(imgFile).into(view)
                 }.show()
             }
         }
