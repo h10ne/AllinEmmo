@@ -2,6 +2,7 @@ package com.example.allinemmo.Adapter
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import android.view.Window
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
@@ -17,8 +17,10 @@ import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
     RecyclerView.Adapter<EmmotionsListAdapter.EmmoHolder>() {
@@ -32,12 +34,22 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
         val text = item.findViewById<TextView>(R.id.emmo_text_card)
         val bin = item.findViewById<ImageButton>(R.id.bin_emmo)
         val emmoName = item.findViewById<TextView>(R.id.emmo_name)
+        val emmo_img = item.findViewById<ImageView>(R.id.emmo_image)
+
         fun bind(emmo: Emmotion, emmotionsListAdapter: EmmotionsListAdapter) {
             text.text = emmo.text
             emmoName.text = ImageToDrawableConverter.GetEmmoNameById(emmo.imageId)
             day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
             dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
                 .uppercase(Locale.getDefault())
+
+            if(emmo.imageSource != "")
+            {
+                emmo_img.visibility = View.VISIBLE
+                val imgFile = File(emmo.imageSource)
+                val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                emmo_img.setImageBitmap(myBitmap)
+            }
 
             bin.setOnClickListener {
                 RemoveEmmo(emmo, emmotionsListAdapter)

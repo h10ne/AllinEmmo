@@ -79,7 +79,7 @@ class NumberFragment : Fragment() {
             }
 
             list.add(
-                emmotion ?: Emmotion(0, 0, "", Date(year - 1900, month - 1, i), i)
+                emmotion ?: Emmotion(0, 0, "", Date(year - 1900, month - 1, i), i, "")
             )
         }
         return list

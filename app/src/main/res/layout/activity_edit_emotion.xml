@@ -74,6 +74,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emmo_name" />
 
+            <ImageView
+                android:id="@+id/emmo_image"
+                android:layout_width="60dp"
+                android:visibility="gone"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emmo_text_card"
+                app:srcCompat="@drawable/gallery" />
+
             <TextView
                 android:id="@+id/day_card"
                 android:layout_width="wrap_content"

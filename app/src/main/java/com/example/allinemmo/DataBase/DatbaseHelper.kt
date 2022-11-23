@@ -25,7 +25,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 DATE + " TEXT, " +
                 DAY + " INTEGER, " +
                 MONTH + " INTEGER, " +
-                YEAR + " INTEGER" + ")")
+                YEAR + " INTEGER, " +
+                IMAGE_SOURCE + " INTEGER " + ")")
 
         // we are calling sqlite
         // method for executing our query
@@ -44,49 +45,51 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
-    fun addEmmotion(imageId: Int, text: String, date: Date) {
+    fun addEmmotion(emmo: Emmotion) {
         val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
-        val dateStr = formatter.format(date)
+        val dateStr = formatter.format(emmo.date)
         val cal = Calendar.getInstance()
-        cal.time = date
+        cal.time = emmo.date
         val month = cal.get(Calendar.MONTH)
         val year = cal.get(Calendar.YEAR)
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
         val values = ContentValues()
-        values.put(IMAGE_ID, imageId)
-        values.put(TEXT, text)
+        values.put(IMAGE_ID, emmo.imageId)
+        values.put(TEXT, emmo.text)
         values.put(DATE, dateStr)
         values.put(MONTH, month + 1)
         values.put(YEAR, year)
         values.put(DAY, day)
+        values.put(IMAGE_SOURCE, emmo.imageSource)
         val db = this.writableDatabase
         val isInserted = db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
-    fun updateEmmotion(emmoId: Int, imageId: Int, text: String, date: Date) {
+    fun updateEmmotion(emmo: Emmotion) {
         val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
-        val dateStr = formatter.format(date)
+        val dateStr = formatter.format(emmo.date)
         val cal = Calendar.getInstance()
-        cal.time = date
+        cal.time = emmo.date
         val month = cal.get(Calendar.MONTH)
         val year = cal.get(Calendar.YEAR)
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
         val values = ContentValues()
-        values.put(IMAGE_ID, imageId)
-        values.put(TEXT, text)
+        values.put(IMAGE_ID, emmo.imageId)
+        values.put(TEXT, emmo.text)
         values.put(DATE, dateStr)
         values.put(MONTH, month + 1)
         values.put(YEAR, year)
         values.put(DAY, day)
+        values.put(IMAGE_SOURCE, emmo.imageSource)
         val db = this.writableDatabase
         db.update(
             TABLE_NAME,
             values,
             "$ID_COL = ?",
-            arrayOf(emmoId.toString())
+            arrayOf(emmo.emmotionId.toString())
         )
         db.close()
     }
@@ -138,9 +141,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val text = it.getString(2)
         val date = it.getString(3)
         val day = it.getInt(4)
+        val imgsrc = it.getString(7)
         val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
         val dateField = formatter.parse(date)
-        return Emmotion(emmoId, imageId, text, dateField, day)
+        return Emmotion(emmoId, imageId, text, dateField, day, imgsrc)
     }
 
     companion object {
@@ -171,5 +175,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val YEAR = "year_column"
 
         val DAY = "day_column"
+
+        val IMAGE_SOURCE = "img_src"
     }
 }
