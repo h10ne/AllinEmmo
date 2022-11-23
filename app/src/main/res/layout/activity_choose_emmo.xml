@@ -116,13 +116,14 @@
 
     <TextView
         android:id="@+id/center_image"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="240dp"
         android:text="Какой ты сегодня?"
 
         android:textColor="@color/black"
-        android:textSize="21sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

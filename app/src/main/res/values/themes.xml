@@ -16,5 +16,7 @@
         <item name="background">@drawable/app_background</item>
         <item name="android:windowBackground">@drawable/app_background</item>
 
+        <item name="fontFamily">@font/whitehall</item>
+
     </style>
 </resources>

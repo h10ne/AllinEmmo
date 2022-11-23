@@ -47,8 +47,11 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
                 .uppercase(Locale.getDefault())
 
-            if(emmo.imageSource != "")
-            {
+            if (emmo.text != "") {
+                text.visibility = View.VISIBLE
+            }
+
+            if (emmo.imageSource != "") {
                 imgBack.visibility = View.VISIBLE
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
@@ -64,7 +67,10 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             emmo_img.setOnClickListener {
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                StfalconImageViewer.Builder<Bitmap>(emotionListActivity, arrayOf(myBitmap)) { view, image ->
+                StfalconImageViewer.Builder<Bitmap>(
+                    emotionListActivity,
+                    arrayOf(myBitmap)
+                ) { view, image ->
                     view.setImageBitmap(image)
                 }.show()
             }
@@ -122,7 +128,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             val emmo = emmotions[position]
 
             emmo.imageId = ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)
-            val intent =  Intent(it.context, EditEmotion::class.java)
+            val intent = Intent(it.context, EditEmotion::class.java)
             intent.putExtra("emmo", emmo)
             it.context.startActivity(intent)
         }

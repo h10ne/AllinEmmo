@@ -12,13 +12,17 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class EmotionListActivity : AppCompatActivity() {
+    private lateinit var recycler: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_list)
         supportActionBar?.hide()
 
+        recycler = findViewById(R.id.emmotions_card_rv)
 
         val bck = findViewById<ImageButton>(R.id.emmolist_back_btn)
+        recycler.layoutManager = LinearLayoutManager(baseContext)
 
         bck.setOnClickListener {
             finish()
@@ -27,8 +31,6 @@ class EmotionListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val cv = findViewById<RecyclerView>(R.id.emmotions_card_rv)
-        cv.layoutManager = LinearLayoutManager(baseContext)
         val adapter = EmmotionsListAdapter(this)
         val date = intent.extras?.get("date") as Date
         val cal = Calendar.getInstance()
@@ -37,7 +39,7 @@ class EmotionListActivity : AppCompatActivity() {
         val year = cal.get(Calendar.YEAR)
         val marks = getMarks(year, month)
         adapter.setItems(marks)
-        cv.adapter = adapter
+        recycler.adapter = adapter
 
     }
 
