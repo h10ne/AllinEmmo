@@ -1,6 +1,8 @@
 package com.example.allinemmo
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -35,6 +37,19 @@ class EditEmotion : AppCompatActivity() {
     private lateinit var photo: ImageButton
     private lateinit var emmoImage: ImageView
     private lateinit var imgBack: CardView
+    private lateinit var emmo: Emmotion
+    private lateinit var emmoName: TextView
+
+    private val intentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val imgId = result.data?.getIntExtra("imgId", -1)
+                emmo.imageId = imgId!!
+
+                img.setImageResource(imgId)
+                emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(imgId!!))
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +65,7 @@ class EditEmotion : AppCompatActivity() {
         imgBack = findViewById<CardView>(R.id.cardImgBack)
         val removeImgBtn = findViewById<ImageButton>(R.id.removeImgSrcBtn)
 
-        val emmo = intent.extras?.get("emmo") as Emmotion
+        emmo = intent.extras?.get("emmo") as Emmotion
         val selectImageIntent = registerForActivityResult(ActivityResultContracts.GetContent())
         { uri ->
             emmoImage.setImageURI(uri)
@@ -65,7 +80,7 @@ class EditEmotion : AppCompatActivity() {
             emmoImage.setImageBitmap(myBitmap)
         }
 
-        val emmoName = findViewById<TextView>(R.id.emmo_name)
+        emmoName = findViewById<TextView>(R.id.emmo_name)
         val clock_btn = findViewById<ImageButton>(R.id.clock_btn)
 
         clock_btn.setOnClickListener {
@@ -106,6 +121,12 @@ class EditEmotion : AppCompatActivity() {
 
         photo.setOnClickListener{
             selectImageIntent.launch("image/*")
+        }
+
+        img.setOnClickListener {
+            val intent =  Intent(it.context, ChooseEmmo::class.java)
+            intent.putExtra("emmo", emmo)
+            intentLauncher.launch(intent)
         }
     }
 

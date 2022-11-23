@@ -1,5 +1,6 @@
 package com.example.allinemmo
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
@@ -49,11 +50,21 @@ class ChooseEmmo : AppCompatActivity() {
     }
 
     private fun handleClick(it: ImageButton, imgId: Int) {
-        emmo.imageId = imgId
 
-        val intent =  Intent(it.context, EditEmotion::class.java)
-        intent.putExtra("emmo", emmo)
-        it.context.startActivity(intent)
+        if(emmo.emmotionId == 0)
+        {
+            emmo.imageId = imgId
+            val intent =  Intent(it.context, EditEmotion::class.java)
+            intent.putExtra("emmo", emmo)
+            it.context.startActivity(intent)
+        }
+        else
+        {
+            val data = Intent()
+            data.putExtra("imgId", imgId)
+
+            setResult(Activity.RESULT_OK, data)
+        }
         finish()
     }
 }

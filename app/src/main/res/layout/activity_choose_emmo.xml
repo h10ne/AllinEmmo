@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ChooseEmmo">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitEnd"
+        android:layout_marginTop="-10dp"
+        android:scaleY="-1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/question_cat" />
+
     <ImageButton
         android:id="@+id/emmo_happy_circle"
         android:layout_width="80dp"
@@ -108,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="240dp"
         android:text="Какой ты сегодня?"
+
         android:textColor="@color/black"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
