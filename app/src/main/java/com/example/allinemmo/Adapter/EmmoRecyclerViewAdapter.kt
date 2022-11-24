@@ -71,6 +71,35 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                 {
                     val intent =  Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
+
+                    var pos = 0
+                    for (i in 1..position)
+                    {
+                        if(emmotions[i]!!.emmotionId != 0)
+                        {
+                            pos++
+                        }
+                    }
+
+                    var allEmmoCount = 0
+                    for (i in 1..position)
+                    {
+                        if(emmotions[i]!!.emmotionId != 0)
+                        {
+                            allEmmoCount++
+                        }
+                    }
+
+                    if(pos == 1)
+                    {
+                        pos = 0
+                    }
+                    else if(pos == allEmmoCount)
+                    {
+                        pos--
+                    }
+
+                    intent.putExtra("pos", pos)
                     it.context.startActivity(intent)
                 }
             }

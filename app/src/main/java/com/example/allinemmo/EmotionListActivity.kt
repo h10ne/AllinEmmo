@@ -34,6 +34,8 @@ class EmotionListActivity : AppCompatActivity() {
         super.onResume()
         val adapter = EmmotionsListAdapter(this)
         val date = intent.extras?.get("date") as Date
+        val pos = intent.extras?.get("pos") as Int
+        recycler.scrollToPosition(pos)
         val cal = Calendar.getInstance()
         cal.time = date
         val month = cal.get(Calendar.MONTH) + 1
