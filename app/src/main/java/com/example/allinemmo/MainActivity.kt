@@ -6,25 +6,38 @@ import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.allinemmo.DataBase.DBHelper
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    var wasClicked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val multiline = findViewById<TextView>(R.id.multilineSplash)
         multiline.text = getRandomTint()
         supportActionBar?.hide()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        Handler().postDelayed({
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, 0)
 
         val helper = DBHelper(this, null)
         helper.applyMigrations()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        val  activity = findViewById<ConstraintLayout>(R.id.mainActivityConstraint)
+        val intent = Intent(this, HomeActivity::class.java)
+        activity.setOnClickListener{
+            wasClicked = true
+            startActivity(intent)
+            finish()
+        }
+
+        Handler().postDelayed({
+            if(!wasClicked)
+            {
+                startActivity(intent)
+                finish()
+            }
+        }, 5000)
     }
 
     private fun getRandomTint(): String? {

@@ -43,7 +43,6 @@ class EmotionListActivity : AppCompatActivity() {
         val marks = getMarks(year, month)
         adapter.setItems(marks)
         recycler.adapter = adapter
-
     }
 
     private fun getMarks(year: Int, month: Int): ArrayList<Emmotion> {
