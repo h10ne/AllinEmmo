@@ -2,12 +2,8 @@ package com.example.allinemmo.Adapter
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,9 +15,9 @@ import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import com.example.allinemmo.R
+import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
-import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,7 +43,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
             dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
                 .uppercase(Locale.getDefault())
-            
+
             if (emmo.text != "") {
                 text.visibility = View.VISIBLE
             }
@@ -95,6 +91,16 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             noBtn.setOnClickListener {
                 dialog.dismiss()
             }
+            val lp = WindowManager.LayoutParams()
+            lp.copyFrom(dialog.window!!.attributes)
+            lp.windowAnimations = R.style.DialogAnimation
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.gravity = Gravity.BOTTOM;
+            lp.horizontalMargin = 0f
+            lp.verticalMargin = 0f
+            dialog.window!!.attributes= lp
+            dialog.setCanceledOnTouchOutside(true)
             dialog.show()
         }
     }
