@@ -30,8 +30,8 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                 return
             }
 
-            if(emmo.imageId == 0)
-                dayCount.text = emmo.day.toString()
+            //if(emmo.imageId == 0)
+            dayCount.text = emmo.day.toString()
 
             Picasso.get().load(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)).fit().centerCrop()
                 .into(img)
