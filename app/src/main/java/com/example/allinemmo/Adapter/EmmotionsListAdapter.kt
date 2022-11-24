@@ -47,7 +47,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
             dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
                 .uppercase(Locale.getDefault())
-
+            
             if (emmo.text != "") {
                 text.visibility = View.VISIBLE
             }

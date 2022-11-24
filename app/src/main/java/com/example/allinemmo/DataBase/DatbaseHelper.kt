@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.allinemmo.DataBase.Migrations.Migration_202211242
 import com.example.allinemmo.OneItemsClasses.Emmotion
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -18,7 +19,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     override fun onCreate(db: SQLiteDatabase) {
         // below is a sqlite query, where column names
         // along with their data types is given
-        val query = ("CREATE TABLE " + TABLE_NAME + " ("
+        var query = ("CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 IMAGE_ID + " TEXT," +
                 TEXT + " TEXT, " +
@@ -28,8 +29,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 YEAR + " INTEGER, " +
                 IMAGE_SOURCE + " INTEGER " + ")")
 
-        // we are calling sqlite
-        // method for executing our query
+        db.execSQL(query)
+
+        query = ("CREATE TABLE " + MIGRATION_TABLE_NAME + " ("
+                + MIGRATION_VERSION + " TEXT PRIMARY KEY)")
         db.execSQL(query)
     }
 
@@ -99,8 +102,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
     }
 
-    // below method is to get
-    // all data from our database
     fun getEmmoById(emmoId: Int): Emmotion? {
         val db = this.readableDatabase
         db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $ID_COL = ?", arrayOf(emmoId.toString()))
@@ -133,6 +134,13 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             }
         db.close()
         return list
+    }
+
+    fun applyMigrations()
+    {
+        val write = this.writableDatabase
+        Migration_202211242().doMigration(write)
+        write.close()
     }
 
     private fun formatCursor(it: Cursor): Emmotion {
@@ -177,5 +185,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val DAY = "day_column"
 
         val IMAGE_SOURCE = "img_src"
+
+
+
+        // below is the variable for table name
+        val MIGRATION_TABLE_NAME = "migration_info"
+
+        val MIGRATION_VERSION = "version"
     }
 }
