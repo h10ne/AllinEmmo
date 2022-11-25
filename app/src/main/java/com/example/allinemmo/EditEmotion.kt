@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -21,6 +22,8 @@ import androidx.core.graphics.drawable.toBitmap
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emotion
+import com.kroegerama.imgpicker.BottomSheetImagePicker
+import com.kroegerama.imgpicker.ButtonType
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
@@ -30,7 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class EditEmotion : AppCompatActivity() {
+class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelectedListener {
     // Картинка-кот с эмоцией
     private lateinit var catEmoImg: ImageView
 
@@ -81,13 +84,6 @@ class EditEmotion : AppCompatActivity() {
                 )
             }
         }
-
-    // Действие после выбора картинки из галереи
-    private val selectImageIntent = registerForActivityResult(ActivityResultContracts.GetContent())
-    { uri ->
-        attachmentImage.setImageURI(uri)
-        saveImage(attachmentImage.drawable.toBitmap(), emo)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,7 +141,14 @@ class EditEmotion : AppCompatActivity() {
         }
 
         photo.setOnClickListener {
-            selectImageIntent.launch("image/*")
+            BottomSheetImagePicker.Builder("Провидер")
+                .cameraButton(ButtonType.Tile)
+                .loadingText(R.string.picker_loading_text)
+                .galleryButton(ButtonType.Tile)
+                .singleSelectTitle(R.string.picker_header_text)
+                .columnSize(R.dimen.columnSize)
+                .requestTag("single")
+                .show(supportFragmentManager)
         }
 
         catEmoImg.setOnClickListener {
@@ -256,5 +259,10 @@ class EditEmotion : AppCompatActivity() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, 1)
         }
+    }
+
+    override fun onImagesSelected(uris: List<Uri>, tag: String?) {
+        attachmentImage.setImageURI(uris[0])
+        saveImage(attachmentImage.drawable.toBitmap(), emo)
     }
 }
