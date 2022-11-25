@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -21,7 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
-import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.example.allinemmo.OneItemsClasses.Emotion
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
@@ -32,112 +31,174 @@ import java.util.*
 
 
 class EditEmotion : AppCompatActivity() {
-    private lateinit var img: ImageView
-    private lateinit var day: TextView
-    private lateinit var dayweek: TextView
-    private lateinit var text: EditText
-    private lateinit var photo: ImageButton
-    private lateinit var emmoImage: ImageView
-    private lateinit var imgBack: CardView
-    private lateinit var emmo: Emmotion
-    private lateinit var emmoName: TextView
+    // Картинка-кот с эмоцией
+    private lateinit var catEmoImg: ImageView
 
+    // День, за который была эмоция
+    private lateinit var day: TextView
+
+    // День недели, за который была эмоция
+    private lateinit var dayweek: TextView
+
+    // Текстовая заметка ко дню
+    private lateinit var text: EditText
+
+    // Кнопка добавления фотографии из галереи
+    private lateinit var photo: ImageButton
+
+    // Прикрепленное изображение
+    private lateinit var attachmentImage: ImageView
+
+    // Фон за картинкой
+    private lateinit var ImageBackgroundCard: CardView
+
+    // Данные эмоции
+    private lateinit var emo: Emotion
+
+    // Название эмоции
+    private lateinit var emoName: TextView
+
+    // Кнопка применения изменеий
+    private lateinit var saveEmmo: ImageView
+
+    // Кнопка для вставки текущего времени
+    private lateinit var clockBtn: ImageButton
+
+    // Кнопка удаления прикрпеленного изображения
+    private lateinit var removeImgBtn: ImageButton
+
+    // Действие обновления картинки-кота эмоции
     private val intentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imgId = result.data?.getIntExtra("imgId", -1)
-                emmo.imageId = imgId!!
+                emo.catEmoId = imgId!!
 
                 Picasso.get().load(imgId).fit().centerCrop()
-                    .into(img)
-                emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(imgId!!))
+                    .into(catEmoImg)
+                emoName.text = ImageToDrawableConverter.getEmmoNameById(
+                    ImageToDrawableConverter.fromDrawableToImageId(imgId!!)
+                )
             }
         }
+
+    // Действие после выбора картинки из галереи
+    private val selectImageIntent = registerForActivityResult(ActivityResultContracts.GetContent())
+    { uri ->
+        attachmentImage.setImageURI(uri)
+        saveImage(attachmentImage.drawable.toBitmap(), emo)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_emotion)
         supportActionBar?.hide()
 
-        emmoImage = findViewById(R.id.emmo_image)
-        img = findViewById<ImageView>(R.id.person_photo)
-        day = findViewById<TextView>(R.id.day_card)
-        dayweek = findViewById<TextView>(R.id.dayweek_card)
-        text = findViewById<EditText>(R.id.emmo_text_card)
+        // Инициализация вьюх
+        attachmentImage = findViewById(R.id.emmo_image)
+        catEmoImg = findViewById(R.id.person_photo)
+        day = findViewById(R.id.day_card)
+        dayweek = findViewById(R.id.dayweek_card)
+        text = findViewById(R.id.emmo_text_card)
         photo = findViewById(R.id.gallery_btn)
-        imgBack = findViewById<CardView>(R.id.cardImgBack)
-        val removeImgBtn = findViewById<ImageButton>(R.id.removeImgSrcBtn)
+        ImageBackgroundCard = findViewById(R.id.cardImgBack)
+        emoName = findViewById(R.id.emmo_name)
+        saveEmmo = findViewById(R.id.apply_btn)
+        clockBtn = findViewById(R.id.clock_btn)
+        removeImgBtn = findViewById(R.id.removeImgSrcBtn)
 
-        emmo = intent.extras?.get("emmo") as Emmotion
-        val selectImageIntent = registerForActivityResult(ActivityResultContracts.GetContent())
-        { uri ->
-            emmoImage.setImageURI(uri)
-            SaveImage(emmoImage.drawable.toBitmap(), emmo)
-        }
+        emo = intent.extras?.get("emmo") as Emotion
 
-        if(emmo.imageSource != "")
-        {
-            imgBack.visibility = View.VISIBLE
-            val imgFile = File(emmo.imageSource)
+        // Если есть прикрепленное изображение, устанавливаем его
+        if (emo.imageSource != "") {
+            ImageBackgroundCard.visibility = View.VISIBLE
+            val imgFile = File(emo.imageSource)
 
             Picasso.get().load(imgFile).fit().centerCrop()
-                .into(emmoImage)
+                .into(attachmentImage)
         }
 
-        emmoName = findViewById(R.id.emmo_name)
-        val clock_btn = findViewById<ImageButton>(R.id.clock_btn)
+        // Устанавливаем значения в остальные поля
+        emoName.text = ImageToDrawableConverter.getEmmoNameById(
+            ImageToDrawableConverter.fromDrawableToImageId(emo.catEmoId)
+        )
+        text.setSelection(0)
+        text.setText(emo.text)
 
-        clock_btn.setOnClickListener {
+        day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emo.date)
+        dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emo.date)
+            .uppercase(Locale.getDefault())
+        Picasso.get().load(emo.catEmoId).fit().centerCrop()
+            .into(catEmoImg)
+
+        initListeners()
+    }
+
+    /**
+     * Инициализировать слушателей
+     */
+    private fun initListeners() {
+        saveEmmo.setOnClickListener {
+            emo.text = text.text.toString()
+            emo.catEmoId = ImageToDrawableConverter.fromDrawableToImageId(emo.catEmoId)
+            saveToDb(emo)
+        }
+
+        photo.setOnClickListener {
+            selectImageIntent.launch("image/*")
+        }
+
+        catEmoImg.setOnClickListener {
+            val intent = Intent(it.context, ChooseEmmo::class.java)
+            intent.putExtra("emmo", emo)
+            intentLauncher.launch(intent)
+        }
+
+
+        clockBtn.setOnClickListener {
             val sdf = SimpleDateFormat("hh:mm", Locale.getDefault())
             val currentDate = sdf.format(Date())
             text.text.append(currentDate + "\n")
         }
 
         removeImgBtn.setOnClickListener {
-            emmo.imageSource = ""
-            emmo.imageId = ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId)
-            imgBack.visibility = View.GONE
+            emo.imageSource = ""
+            emo.catEmoId = ImageToDrawableConverter.fromDrawableToImageId(emo.catEmoId)
+            ImageBackgroundCard.visibility = View.GONE
         }
 
-        emmoImage.setOnClickListener {
-            val imgFile = File(emmo.imageSource)
+        attachmentImage.setOnClickListener {
+            val imgFile = File(emo.imageSource)
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             StfalconImageViewer.Builder(this, arrayOf(myBitmap)) { view, _ ->
                 Picasso.get().load(imgFile).into(view)
             }.show()
         }
+    }
 
-        emmoName.text = ImageToDrawableConverter.GetEmmoNameById(ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId))
+    /**
+     * Сохраняет изображение в память
+     */
+    private fun saveImage(finalBitmap: Bitmap, emmo: Emotion) {
+        checkPermissions()
 
-        text.setSelection(0)
-        text.setText(emmo.text)
-        day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
-        dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
-            .uppercase(Locale.getDefault())
-        Picasso.get().load(emmo.imageId).fit().centerCrop()
-            .into(img)
-        val saveEmmo = findViewById<ImageView>(R.id.apply_btn)
-
-        saveEmmo.setOnClickListener {
-            emmo.text = text.text.toString()
-            emmo.imageId = ImageToDrawableConverter.FromDrawableToImageId(emmo.imageId)
-            saveToDb(emmo)
-        }
-
-        photo.setOnClickListener{
-            selectImageIntent.launch("image/*")
-        }
-
-        img.setOnClickListener {
-            val intent =  Intent(it.context, ChooseEmmo::class.java)
-            intent.putExtra("emmo", emmo)
-            intentLauncher.launch(intent)
+        try {
+            val file = createUniqFile()
+            val out = FileOutputStream(file)
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.flush()
+            out.close()
+            emmo.imageSource = file.absolutePath
+            ImageBackgroundCard.visibility = View.VISIBLE
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
-    private fun SaveImage(finalBitmap: Bitmap, emmo: Emmotion) {
-        checkPermissions()
-
+    /**
+     * Создает уникальный объект [File]
+      */
+    private fun createUniqFile(): File {
         val myDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
             "allin_emmo"
@@ -147,57 +208,41 @@ class EditEmotion : AppCompatActivity() {
             myDir.mkdirs()
         }
 
-        try {
-            val generator = Random()
-            var n = 10000
+        val generator = Random()
+        var n = 10000
+        n = generator.nextInt(n)
+
+        var fname = ""
+
+        fname = "Image-$n.png"
+        var file = File(myDir, fname)
+        while (file.exists()) {
             n = generator.nextInt(n)
-
-            var file: File
-            var fname = ""
-
             fname = "Image-$n.png"
             file = File(myDir, fname)
-            while (file.exists())
-            {
-                n = generator.nextInt(n)
-                fname = "Image-$n.png"
-                file = File(myDir, fname)
-            }
-
-            try {
-                file.createNewFile()
-                val out = FileOutputStream(file)
-                finalBitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
-                out.flush()
-                out.close()
-                val db = DBHelper(this, null)
-                emmo.imageSource = file.absolutePath
-                //db.updateEmmotion(emmo)
-                imgBack.visibility = View.VISIBLE
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
+        file.createNewFile()
+        return file
     }
 
-    private fun saveToDb(emmotion:Emmotion) {
+    /**
+     * Сохранить эмоцию в бд и закрыть активити
+     */
+    private fun saveToDb(emmotion: Emotion) {
         val helper = DBHelper(baseContext, null)
-        if(emmotion.emmotionId == 0)
-        {
+        if (emmotion.emotionId == 0) {
             helper.addEmmotion(emmotion)
-        }
-        else
-        {
+        } else {
             helper.updateEmmotion(emmotion)
 
         }
         finish()
     }
 
-    private fun checkPermissions()
-    {
+    /**
+     * Проверяет разрешения на внутренее хранилище. Если нет, то запрашивает
+     */
+    private fun checkPermissions() {
         val permission = ActivityCompat.checkSelfPermission(
             this,
             Manifest.permission.WRITE_EXTERNAL_STORAGE

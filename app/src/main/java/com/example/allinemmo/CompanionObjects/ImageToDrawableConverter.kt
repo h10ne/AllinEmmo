@@ -2,8 +2,14 @@ package com.example.allinemmo.CompanionObjects
 
 import com.example.allinemmo.R
 
+/**
+ * Ассоциатор эмоций
+ */
 object ImageToDrawableConverter {
-    fun FromImageIdToDrawable(imageId: Int): Int {
+    /**
+     * Получить drawable по ид эмоции
+     */
+    fun fromImageIdToDrawable(imageId: Int): Int {
         when (imageId) {
             1 -> return R.drawable.emmo_happy
             2 -> return R.drawable.emmo_confused
@@ -17,7 +23,10 @@ object ImageToDrawableConverter {
         return R.drawable.empty_circle
     }
 
-    fun FromDrawableToImageId(drawable: Int): Int {
+    /**
+     * Получить ид эмоции по ее drawable
+     */
+    fun fromDrawableToImageId(drawable: Int): Int {
         when (drawable) {
             R.drawable.emmo_happy -> return 1
             R.drawable.emmo_confused -> return 2
@@ -31,7 +40,10 @@ object ImageToDrawableConverter {
         return 0
     }
 
-    fun GetEmmoNameById(imageId: Int): String {
+    /**
+     * Получить название эмоции по ее ид
+     */
+    fun getEmmoNameById(imageId: Int): String {
         when (imageId) {
             1 -> return "Все отлично!"
             2 -> return "Растерян"

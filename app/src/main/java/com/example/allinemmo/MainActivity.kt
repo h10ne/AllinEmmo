@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         }, 5000)
     }
 
+    /**
+     * Получает рандомный комментарий из списка для вывода на экран приветствия
+     */
     private fun getRandomTint(): String? {
         val rnds = (1..34).random()
         val packageName = packageName

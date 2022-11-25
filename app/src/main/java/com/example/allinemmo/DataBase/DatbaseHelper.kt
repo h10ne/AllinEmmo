@@ -6,19 +6,19 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.allinemmo.DataBase.Migrations.Migration_202211242
-import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.example.allinemmo.OneItemsClasses.Emotion
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Вспомогательный класс для взаимодействия с бд
+ */
 class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
-    // below is the method for creating a database by a sqlite query
     override fun onCreate(db: SQLiteDatabase) {
-        // below is a sqlite query, where column names
-        // along with their data types is given
         var query = ("CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 IMAGE_ID + " TEXT," +
@@ -42,67 +42,71 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
+    /**
+     * Пересоздает базу
+     */
     fun recreate() {
         val db = this.writableDatabase
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
         onCreate(db)
     }
 
-    fun addEmmotion(emmo: Emmotion) {
-        val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
-        val dateStr = formatter.format(emmo.date)
-        val cal = Calendar.getInstance()
-        cal.time = emmo.date
-        val month = cal.get(Calendar.MONTH)
-        val year = cal.get(Calendar.YEAR)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-
-        val values = ContentValues()
-        values.put(IMAGE_ID, emmo.imageId)
-        values.put(TEXT, emmo.text)
-        values.put(DATE, dateStr)
-        values.put(MONTH, month + 1)
-        values.put(YEAR, year)
-        values.put(DAY, day)
-        values.put(IMAGE_SOURCE, emmo.imageSource)
+    /**
+     * Добавить запись об эмоции
+     */
+    fun addEmmotion(emo: Emotion) {
         val db = this.writableDatabase
-        val isInserted = db.insert(TABLE_NAME, null, values)
+        val isInserted = db.insert(TABLE_NAME, null, createValues(emo))
         db.close()
     }
 
-    fun updateEmmotion(emmo: Emmotion) {
-        val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
-        val dateStr = formatter.format(emmo.date)
-        val cal = Calendar.getInstance()
-        cal.time = emmo.date
-        val month = cal.get(Calendar.MONTH)
-        val year = cal.get(Calendar.YEAR)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
+    /**
+     * Обновить запись об эмоции
+     */
+    fun updateEmmotion(emo: Emotion) {
 
-        val values = ContentValues()
-        values.put(IMAGE_ID, emmo.imageId)
-        values.put(TEXT, emmo.text)
-        values.put(DATE, dateStr)
-        values.put(MONTH, month + 1)
-        values.put(YEAR, year)
-        values.put(DAY, day)
-        values.put(IMAGE_SOURCE, emmo.imageSource)
         val db = this.writableDatabase
         db.update(
             TABLE_NAME,
-            values,
+            createValues(emo),
             "$ID_COL = ?",
-            arrayOf(emmo.emmotionId.toString())
+            arrayOf(emo.emotionId.toString())
         )
         db.close()
     }
 
+    /**
+     * Создать значения [ContentValues] для записи в таблицу
+     */
+    private fun createValues(emo: Emotion): ContentValues {
+        val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
+        val dateStr = formatter.format(emo.date)
+        val cal = Calendar.getInstance()
+        cal.time = emo.date
+        val month = cal.get(Calendar.MONTH)
+        val year = cal.get(Calendar.YEAR)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+
+        val values = ContentValues()
+        values.put(IMAGE_ID, emo.catEmoId)
+        values.put(TEXT, emo.text)
+        values.put(DATE, dateStr)
+        values.put(MONTH, month + 1)
+        values.put(YEAR, year)
+        values.put(DAY, day)
+        values.put(IMAGE_SOURCE, emo.imageSource)
+        return values
+    }
+
+    /**
+     * Удалить эмоцию по ее ид
+     */
     fun deleteEmmoById(id: Int): Boolean {
         val db = this.writableDatabase
         return db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
     }
 
-    fun getEmmoById(emmoId: Int): Emmotion? {
+    fun getEmmoById(emmoId: Int): Emotion? {
         val db = this.readableDatabase
         db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $ID_COL = ?", arrayOf(emmoId.toString()))
             .use {
@@ -116,8 +120,11 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return null
     }
 
-    fun getEmmoByYearAndMonth(year: Int, month: Int): ArrayList<Emmotion> {
-        val list = ArrayList<Emmotion>()
+    /**
+     * Получить информацию о всех существующих эмоциях за год [year] и месяц [month] из базы
+     */
+    fun getEmmoByYearAndMonth(year: Int, month: Int): ArrayList<Emotion> {
+        val list = ArrayList<Emotion>()
         val db = this.readableDatabase
         db.rawQuery(
             "SELECT * FROM $TABLE_NAME WHERE $MONTH = ? AND $YEAR = ? ORDER BY $DAY",
@@ -136,14 +143,19 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
-    fun applyMigrations()
-    {
+    /**
+     * Выполнить миграции
+     */
+    fun applyMigrations() {
         val write = this.writableDatabase
         Migration_202211242().doMigration(write)
         write.close()
     }
 
-    private fun formatCursor(it: Cursor): Emmotion {
+    /**
+     * Получить объект [Emotion] из запроса [Cursor]
+     */
+    private fun formatCursor(it: Cursor): Emotion {
         val emmoId = it.getInt(0)
         val imageId = it.getInt(1)
         val text = it.getString(2)
@@ -152,7 +164,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val imgsrc = it.getString(7)
         val formatter: DateFormat = SimpleDateFormat("d-MMM-yyyy", Locale.getDefault())
         val dateField = formatter.parse(date)
-        return Emmotion(emmoId, imageId, text, dateField, day, imgsrc)
+        return Emotion(emmoId, imageId, text, dateField, day, imgsrc)
     }
 
     companion object {
@@ -185,7 +197,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val DAY = "day_column"
 
         val IMAGE_SOURCE = "img_src"
-
 
 
         // below is the variable for table name

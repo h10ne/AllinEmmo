@@ -1,44 +1,43 @@
 package com.example.allinemmo.Adapter
 
 import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allinemmo.ChooseEmmo
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.EmotionListActivity
-import com.example.allinemmo.HomeActivity
-import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.example.allinemmo.OneItemsClasses.Emotion
 import com.example.allinemmo.R
 import com.squareup.picasso.Picasso
 
+/**
+ * Адаптер для иконок эмоций за месяц
+ */
 class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.EmmoHolder>() {
-    private var emmotions: ArrayList<Emmotion?> = ArrayList()
+    private var emmotions: ArrayList<Emotion?> = ArrayList()
     class EmmoHolder(item:View) : RecyclerView.ViewHolder(item)
     {
-        val img = item.findViewById<ImageView>(R.id.oneEmmo)
+        val catImg = item.findViewById<ImageView>(R.id.oneEmmo)
         val dayCount = item.findViewById<TextView>(R.id.countDay)
-        fun bind(emmo:Emmotion?)
+        fun bind(emmo:Emotion?)
         {
             if(emmo == null)
             {
                 return
             }
 
-            //if(emmo.imageId == 0)
             dayCount.text = emmo.day.toString()
 
-            Picasso.get().load(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)).fit().centerCrop()
-                .into(img)
+            Picasso.get().load(ImageToDrawableConverter.fromImageIdToDrawable(emmo.catEmoId)).fit().centerCrop()
+                .into(catImg)
         }
     }
 
-    fun setItems(marks: ArrayList<Emmotion?>) {
+    fun setItems(marks: ArrayList<Emotion?>) {
         clearItems()
         this.emmotions.addAll(marks)
     }
@@ -61,7 +60,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
             val emmo = emmotions[position]
             if(emmo != null)
             {
-                if(emmo.emmotionId == 0)
+                if(emmo.emotionId == 0)
                 {
                     val intent =  Intent(it.context, ChooseEmmo::class.java)
                     intent.putExtra("emmo", emmo)
@@ -72,39 +71,49 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                     val intent =  Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
 
-                    var pos = 0
-                    for (i in 1..position)
-                    {
-                        if(emmotions[i]!!.emmotionId != 0)
-                        {
-                            pos++
-                        }
-                    }
 
-                    var allEmmoCount = 0
-                    for (i in 1..position)
-                    {
-                        if(emmotions[i]!!.emmotionId != 0)
-                        {
-                            allEmmoCount++
-                        }
-                    }
 
-                    if(pos == 1)
-                    {
-                        pos = 0
-                    }
-                    else if(pos == allEmmoCount)
-                    {
-                        pos--
-                    }
-
-                    intent.putExtra("pos", pos)
+                    intent.putExtra("pos", getScrollablePosition(position))
                     it.context.startActivity(intent)
                 }
             }
         }
     }
+
+    /**
+     * Возвращает позицию, на которую должно прокрутиться окно эмоций за месяц
+     */
+    private fun getScrollablePosition(position: Int):Int
+    {
+        var pos = 0
+        for (i in 1..position)
+        {
+            if(emmotions[i]!!.emotionId != 0)
+            {
+                pos++
+            }
+        }
+
+        var allEmmoCount = 0
+        for (i in 1..position)
+        {
+            if(emmotions[i]!!.emotionId != 0)
+            {
+                allEmmoCount++
+            }
+        }
+
+        if(pos == 1)
+        {
+            pos = 0
+        }
+        else if(pos == allEmmoCount)
+        {
+            pos--
+        }
+        return pos
+    }
+
 
     override fun getItemCount(): Int {
         return emmotions.count();

@@ -13,7 +13,7 @@ import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
-import com.example.allinemmo.OneItemsClasses.Emmotion
+import com.example.allinemmo.OneItemsClasses.Emotion
 import com.example.allinemmo.R
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -21,48 +21,72 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Адаптер для списка эмоций за месяц
+ */
+class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) :
+    RecyclerView.Adapter<EmotionsListAdapter.EmmoHolder>() {
+    private var emmotions: ArrayList<Emotion> = ArrayList()
 
-class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
-    RecyclerView.Adapter<EmmotionsListAdapter.EmmoHolder>() {
-    private var emmotions: ArrayList<Emmotion> = ArrayList()
-
-    class EmmoHolder(item: View, val emotionListActivity: EmotionListActivity) :
+    class EmmoHolder(item: View, private val emotionListActivity: EmotionListActivity) :
         RecyclerView.ViewHolder(item) {
-        val img = item.findViewById<ImageView>(R.id.person_photo)
-        val day = item.findViewById<TextView>(R.id.day_card)
-        val dayweek = item.findViewById<TextView>(R.id.dayweek_card)
-        val text = item.findViewById<TextView>(R.id.emmo_text_card)
-        val bin = item.findViewById<ImageButton>(R.id.bin_emmo)
-        val emmoName = item.findViewById<TextView>(R.id.emmo_name)
-        val emmo_img = item.findViewById<ImageView>(R.id.emmo_image)
-        val imgBack = item.findViewById<CardView>(R.id.cardImgBack)
+        // Картинка-кот с эмоцией
+        private val carEmoImg = item.findViewById<ImageView>(R.id.person_photo)
 
-        fun bind(emmo: Emmotion, emmotionsListAdapter: EmmotionsListAdapter) {
-            text.text = emmo.text
-            emmoName.text = ImageToDrawableConverter.GetEmmoNameById(emmo.imageId)
-            day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emmo.date)
-            dayweek.text = SimpleDateFormat("EE", Locale.getDefault()).format(emmo.date)
+        // День, за который была эмоция
+        private val day = item.findViewById<TextView>(R.id.day_card)
+
+        // День недели, за который была эмоция
+        private val weekday = item.findViewById<TextView>(R.id.dayweek_card)
+
+        // Текстовая заметка ко дню
+        private val text = item.findViewById<TextView>(R.id.emmo_text_card)
+
+        // Кнопка удаления
+        private val bin = item.findViewById<ImageButton>(R.id.bin_emmo)
+
+        // Название эмоции
+        private val emoName = item.findViewById<TextView>(R.id.emmo_name)
+
+        // Прикрепленное изображение
+        private val attachmentImage = item.findViewById<ImageView>(R.id.emmo_image)
+
+        // Кнопка для возвращения назад
+        private val imgBack = item.findViewById<CardView>(R.id.cardImgBack)
+
+        fun bind(emo: Emotion, emotionsListAdapter: EmotionsListAdapter) {
+
+            // Установить значения во вью из данных эмоции
+            text.text = emo.text
+            emoName.text = ImageToDrawableConverter.getEmmoNameById(emo.catEmoId)
+            day.text = SimpleDateFormat("d MMMM", Locale.getDefault()).format(emo.date)
+            weekday.text = SimpleDateFormat("EE", Locale.getDefault()).format(emo.date)
                 .uppercase(Locale.getDefault())
+            Picasso.get().load(ImageToDrawableConverter.fromImageIdToDrawable(emo.catEmoId)).fit()
+                .centerCrop()
+                .into(carEmoImg)
 
-            if (emmo.text != "") {
+            // Показать остальные элементы, если для них есть значения
+            if (emo.text != "") {
                 text.visibility = View.VISIBLE
             }
 
-            if (emmo.imageSource != "") {
+            if (emo.imageSource != "") {
                 imgBack.visibility = View.VISIBLE
-                val imgFile = File(emmo.imageSource)
+                val imgFile = File(emo.imageSource)
                 Picasso.get().load(imgFile).fit().centerCrop()
-                    .into(emmo_img);
+                    .into(attachmentImage);
             }
 
-            bin.setOnClickListener {
-                RemoveEmmo(emmo, emmotionsListAdapter)
-            }
+            initListeners(emo, emotionsListAdapter)
+        }
 
-            Picasso.get().load(ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)).fit().centerCrop()
-                .into(img)
-
-            emmo_img.setOnClickListener {
+        /**
+         * Установить слушателей
+         */
+        private fun initListeners(emmo: Emotion, emmotionsListAdapter: EmotionsListAdapter)
+        {
+            attachmentImage.setOnClickListener {
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                 StfalconImageViewer.Builder(
@@ -72,9 +96,16 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
                     Picasso.get().load(imgFile).into(view)
                 }.show()
             }
+
+            bin.setOnClickListener {
+                removeEmo(emmo, emmotionsListAdapter)
+            }
         }
 
-        private fun RemoveEmmo(emmo: Emmotion, adapter: EmmotionsListAdapter) {
+        /**
+         * Вызывать диалог с удалением эмоции
+         */
+        private fun removeEmo(emmo: Emotion, adapter: EmotionsListAdapter) {
             val dialog = Dialog(emotionListActivity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
@@ -84,7 +115,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             val noBtn = dialog.findViewById(R.id.no_cross) as ImageButton
             yesBtn.setOnClickListener {
                 val db = DBHelper(emotionListActivity.baseContext, null)
-                db.deleteEmmoById(emmo.emmotionId)
+                db.deleteEmmoById(emmo.emotionId)
                 adapter.removeItem(adapterPosition)
                 dialog.dismiss()
             }
@@ -99,21 +130,19 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
             lp.gravity = Gravity.BOTTOM;
             lp.horizontalMargin = 0f
             lp.verticalMargin = 0f
-            dialog.window!!.attributes= lp
+            dialog.window!!.attributes = lp
             dialog.setCanceledOnTouchOutside(true)
             dialog.show()
         }
     }
 
-    fun setItems(marks: ArrayList<Emmotion>) {
+    fun setItems(marks: ArrayList<Emotion>) {
         clearItems()
         this.emmotions.addAll(marks)
-        //notifyDataSetChanged()
     }
 
-    fun clearItems() {
+    private fun clearItems() {
         emmotions.clear()
-        //notifyDataSetChanged()
     }
 
     private fun removeItem(position: Int) {
@@ -135,7 +164,7 @@ class EmmotionsListAdapter(val emotionListActivity: EmotionListActivity) :
         holder.itemView.setOnClickListener {
             val emmo = emmotions[position]
 
-            emmo.imageId = ImageToDrawableConverter.FromImageIdToDrawable(emmo.imageId)
+            emmo.catEmoId = ImageToDrawableConverter.fromImageIdToDrawable(emmo.catEmoId)
             val intent = Intent(it.context, EditEmotion::class.java)
             intent.putExtra("emmo", emmo)
             it.context.startActivity(intent)
