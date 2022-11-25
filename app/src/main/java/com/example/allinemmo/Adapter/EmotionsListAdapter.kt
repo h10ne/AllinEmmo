@@ -15,6 +15,7 @@ import com.example.allinemmo.EditEmotion
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emotion
 import com.example.allinemmo.R
+import com.example.allinemmo.SoundHelper
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
@@ -87,6 +88,7 @@ class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) 
         private fun initListeners(emmo: Emotion, emmotionsListAdapter: EmotionsListAdapter)
         {
             attachmentImage.setOnClickListener {
+                SoundHelper.playClickSound(emotionListActivity)
                 val imgFile = File(emmo.imageSource)
                 val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                 StfalconImageViewer.Builder(
@@ -98,6 +100,7 @@ class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) 
             }
 
             bin.setOnClickListener {
+                SoundHelper.playClickSound(emotionListActivity)
                 removeEmo(emmo, emmotionsListAdapter)
             }
         }
@@ -114,12 +117,14 @@ class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) 
             val yesBtn = dialog.findViewById(R.id.yes_bin) as ImageButton
             val noBtn = dialog.findViewById(R.id.no_cross) as ImageButton
             yesBtn.setOnClickListener {
+                SoundHelper.playClickSound(emotionListActivity)
                 val db = DBHelper(emotionListActivity.baseContext, null)
                 db.deleteEmmoById(emmo.emotionId)
                 adapter.removeItem(adapterPosition)
                 dialog.dismiss()
             }
             noBtn.setOnClickListener {
+                SoundHelper.playClickSound(emotionListActivity)
                 dialog.dismiss()
             }
             val lp = WindowManager.LayoutParams()
@@ -162,6 +167,7 @@ class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) 
         holder.bind(emmotions[position], this)
 
         holder.itemView.setOnClickListener {
+            SoundHelper.playClickSound(it.context)
             val emmo = emmotions[position]
 
             emmo.catEmoId = ImageToDrawableConverter.fromImageIdToDrawable(emmo.catEmoId)

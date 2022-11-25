@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -22,6 +23,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.DataBase.DBHelper
 import com.example.allinemmo.OneItemsClasses.Emotion
+import com.example.allinemmo.SoundHelper.playClickSound
 import com.kroegerama.imgpicker.BottomSheetImagePicker
 import com.kroegerama.imgpicker.ButtonType
 import com.squareup.picasso.Picasso
@@ -135,12 +137,14 @@ class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelected
      */
     private fun initListeners() {
         saveEmmo.setOnClickListener {
+            playClickSound(this)
             emo.text = text.text.toString()
             emo.catEmoId = ImageToDrawableConverter.fromDrawableToImageId(emo.catEmoId)
             saveToDb(emo)
         }
 
         photo.setOnClickListener {
+            playClickSound(this)
             BottomSheetImagePicker.Builder("Провидер")
                 .cameraButton(ButtonType.Tile)
                 .loadingText(R.string.picker_loading_text)
@@ -152,6 +156,7 @@ class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelected
         }
 
         catEmoImg.setOnClickListener {
+            playClickSound(this)
             val intent = Intent(it.context, ChooseEmmo::class.java)
             intent.putExtra("emmo", emo)
             intentLauncher.launch(intent)
@@ -159,18 +164,21 @@ class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelected
 
 
         clockBtn.setOnClickListener {
+            playClickSound(this)
             val sdf = SimpleDateFormat("hh:mm", Locale.getDefault())
             val currentDate = sdf.format(Date())
             text.text.append(currentDate + "\n")
         }
 
         removeImgBtn.setOnClickListener {
+            playClickSound(this)
             emo.imageSource = ""
             emo.catEmoId = ImageToDrawableConverter.fromDrawableToImageId(emo.catEmoId)
             ImageBackgroundCard.visibility = View.GONE
         }
 
         attachmentImage.setOnClickListener {
+            playClickSound(this)
             val imgFile = File(emo.imageSource)
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             StfalconImageViewer.Builder(this, arrayOf(myBitmap)) { view, _ ->

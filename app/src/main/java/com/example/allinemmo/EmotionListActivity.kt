@@ -26,6 +26,7 @@ class EmotionListActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(baseContext)
 
         bck.setOnClickListener {
+            SoundHelper.playClickSound(this)
             finish()
         }
     }

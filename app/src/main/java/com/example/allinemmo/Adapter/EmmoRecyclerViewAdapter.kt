@@ -12,6 +12,7 @@ import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
 import com.example.allinemmo.EmotionListActivity
 import com.example.allinemmo.OneItemsClasses.Emotion
 import com.example.allinemmo.R
+import com.example.allinemmo.SoundHelper
 import com.squareup.picasso.Picasso
 
 /**
@@ -57,6 +58,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         holder.bind(emmotions[position])
 
         holder.itemView.setOnClickListener {
+            SoundHelper.playClickSound(it.context)
             val emmo = emmotions[position]
             if(emmo != null)
             {
@@ -70,8 +72,6 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                 {
                     val intent =  Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
-
-
 
                     intent.putExtra("pos", getScrollablePosition(position))
                     it.context.startActivity(intent)

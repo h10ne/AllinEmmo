@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val  activity = findViewById<ConstraintLayout>(R.id.mainActivityConstraint)
         val intent = Intent(this, HomeActivity::class.java)
         activity.setOnClickListener{
+            SoundHelper.playClickSound(this)
             wasClicked = true
             startActivity(intent)
             finish()

@@ -51,14 +51,37 @@ class ChooseEmmo : AppCompatActivity() {
     }
 
     private fun setOnItemClick() {
-        emoButtons[0].setOnClickListener { handleClick(emoButtons[0], R.drawable.emmo_angry) }
-        emoButtons[1].setOnClickListener { handleClick(emoButtons[1], R.drawable.emmo_confused) }
-        emoButtons[2].setOnClickListener { handleClick(emoButtons[2], R.drawable.emmo_happy) }
-        emoButtons[3].setOnClickListener { handleClick(emoButtons[3], R.drawable.emmo_perfect) }
-        emoButtons[4].setOnClickListener { handleClick(emoButtons[4], R.drawable.emmo_tired) }
-        emoButtons[5].setOnClickListener { handleClick(emoButtons[5], R.drawable.emmo_normal) }
-        emoButtons[6].setOnClickListener { handleClick(emoButtons[6], R.drawable.emmo_sad) }
-        emoButtons[7].setOnClickListener { handleClick(emoButtons[7], R.drawable.emmo_excited) }
+        emoButtons[0].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[0], R.drawable.emmo_angry) }
+
+        emoButtons[1].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[1], R.drawable.emmo_confused) }
+
+        emoButtons[2].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[2], R.drawable.emmo_happy) }
+
+        emoButtons[3].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[3], R.drawable.emmo_perfect) }
+
+        emoButtons[4].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[4], R.drawable.emmo_tired) }
+
+        emoButtons[5].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[5], R.drawable.emmo_normal) }
+
+        emoButtons[6].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[6], R.drawable.emmo_sad) }
+
+        emoButtons[7].setOnClickListener {
+            SoundHelper.playClickSound(this)
+            handleClick(emoButtons[7], R.drawable.emmo_excited) }
     }
 
 
