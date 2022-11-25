@@ -12,4 +12,10 @@ object SoundHelper {
         val mp: MediaPlayer = MediaPlayer.create(context, R.raw.click_sound1)
         mp.start()
     }
+
+    fun meowSound(context: Context)
+    {
+        val mp: MediaPlayer = MediaPlayer.create(context, R.raw.meow)
+        mp.start()
+    }
 }
