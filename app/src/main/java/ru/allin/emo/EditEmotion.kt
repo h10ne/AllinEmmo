@@ -1,4 +1,4 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.Manifest
 import android.app.Activity
@@ -20,10 +20,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
-import com.example.allinemmo.DataBase.DBHelper
-import com.example.allinemmo.OneItemsClasses.Emotion
-import com.example.allinemmo.SoundHelper.playClickSound
+import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
+import ru.allin.emo.DataBase.DBHelper
+import ru.allin.emo.OneItemsClasses.Emotion
+import ru.allin.emo.SoundHelper.playClickSound
 import com.kroegerama.imgpicker.BottomSheetImagePicker
 import com.kroegerama.imgpicker.ButtonType
 import com.squareup.picasso.Picasso

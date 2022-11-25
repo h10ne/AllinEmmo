@@ -1,4 +1,4 @@
-package com.example.allinemmo.Adapter
+package ru.allin.emo.Adapter
 
 import android.app.Dialog
 import android.content.Intent
@@ -9,13 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
-import com.example.allinemmo.DataBase.DBHelper
-import com.example.allinemmo.EditEmotion
-import com.example.allinemmo.EmotionListActivity
-import com.example.allinemmo.OneItemsClasses.Emotion
-import com.example.allinemmo.R
-import com.example.allinemmo.SoundHelper
+import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
+import ru.allin.emo.DataBase.DBHelper
+import ru.allin.emo.EditEmotion
+import ru.allin.emo.EmotionListActivity
+import ru.allin.emo.OneItemsClasses.Emotion
+import ru.allin.emo.R
+import ru.allin.emo.SoundHelper
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File

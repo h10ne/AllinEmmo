@@ -1,12 +1,12 @@
-package com.example.allinemmo.Adapter
+package ru.allin.emo.Adapter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.allinemmo.ARG_OBJECT
-import com.example.allinemmo.DAYS
-import com.example.allinemmo.NumberFragment
+import ru.allin.emo.ARG_OBJECT
+import ru.allin.emo.DAYS
+import ru.allin.emo.NumberFragment
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.ZoneId

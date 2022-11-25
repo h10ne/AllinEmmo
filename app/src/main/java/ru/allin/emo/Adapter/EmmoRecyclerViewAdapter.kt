@@ -1,4 +1,4 @@
-package com.example.allinemmo.Adapter
+package ru.allin.emo.Adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.allinemmo.ChooseEmmo
-import com.example.allinemmo.CompanionObjects.ImageToDrawableConverter
-import com.example.allinemmo.EmotionListActivity
-import com.example.allinemmo.OneItemsClasses.Emotion
-import com.example.allinemmo.R
-import com.example.allinemmo.SoundHelper
+import ru.allin.emo.ChooseEmmo
+import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
+import ru.allin.emo.EmotionListActivity
+import ru.allin.emo.OneItemsClasses.Emotion
+import ru.allin.emo.R
+import ru.allin.emo.SoundHelper
 import com.squareup.picasso.Picasso
 
 /**

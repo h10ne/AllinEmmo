@@ -1,6 +1,6 @@
-package com.example.allinemmo.CompanionObjects
+package ru.allin.emo.CompanionObjects
 
-import com.example.allinemmo.R
+import ru.allin.emo.R
 
 /**
  * Ассоциатор эмоций

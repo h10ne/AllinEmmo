@@ -40,7 +40,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="49dp"
                 android:layout_height="45sp"
-                app:srcCompat="@drawable/ic_stat_name"
+                app:srcCompat="@drawable/pen"
                 tools:ignore="ContentDescription" />
 
             <Space

@@ -1,4 +1,4 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.allinemmo.DataBase.DBHelper
+import ru.allin.emo.DataBase.DBHelper
 import java.util.*
 
 class MainActivity : AppCompatActivity() {

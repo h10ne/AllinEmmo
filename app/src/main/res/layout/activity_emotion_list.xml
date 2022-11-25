@@ -10,16 +10,17 @@
         android:id="@+id/emmolist_back_btn"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
         android:layout_weight="1"
-        android:padding="2.5dp"
         android:background="?selectableItemBackgroundBorderless"
+        android:padding="2.5dp"
         android:rotationY="180"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_arrow" />
+        app:srcCompat="@drawable/back_arrow"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/monthEmmoList"

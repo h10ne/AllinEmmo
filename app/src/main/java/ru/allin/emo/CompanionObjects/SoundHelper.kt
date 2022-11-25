@@ -1,4 +1,4 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.content.Context
 import android.media.MediaPlayer

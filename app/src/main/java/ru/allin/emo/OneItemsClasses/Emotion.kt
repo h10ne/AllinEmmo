@@ -1,4 +1,4 @@
-package com.example.allinemmo.OneItemsClasses
+package ru.allin.emo.OneItemsClasses
 
 import java.util.Date
 

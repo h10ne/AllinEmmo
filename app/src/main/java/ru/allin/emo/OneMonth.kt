@@ -1,4 +1,4 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.allinemmo.Adapter.EmmoRecyclerViewAdapter
-import com.example.allinemmo.DataBase.DBHelper
-import com.example.allinemmo.OneItemsClasses.Emotion
+import ru.allin.emo.Adapter.EmmoRecyclerViewAdapter
+import ru.allin.emo.DataBase.DBHelper
+import ru.allin.emo.OneItemsClasses.Emotion
 import java.util.*
 import kotlin.collections.ArrayList
 

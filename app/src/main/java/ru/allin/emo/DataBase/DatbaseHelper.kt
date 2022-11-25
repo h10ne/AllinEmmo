@@ -1,12 +1,12 @@
-package com.example.allinemmo.DataBase
+package ru.allin.emo.DataBase
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.allinemmo.DataBase.Migrations.Migration_202211242
-import com.example.allinemmo.OneItemsClasses.Emotion
+import ru.allin.emo.DataBase.Migrations.Migration_202211242
+import ru.allin.emo.OneItemsClasses.Emotion
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*

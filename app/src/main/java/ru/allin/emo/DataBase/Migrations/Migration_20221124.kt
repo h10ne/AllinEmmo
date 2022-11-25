@@ -1,7 +1,7 @@
-package com.example.allinemmo.DataBase.Migrations
+package ru.allin.emo.DataBase.Migrations
 
 import android.database.sqlite.SQLiteDatabase
-import com.example.allinemmo.DataBase.DBHelper
+import ru.allin.emo.DataBase.DBHelper
 
 class Migration_202211242: BaseMigration() {
 

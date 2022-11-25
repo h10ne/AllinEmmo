@@ -1,4 +1,4 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.app.Activity
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.allinemmo.OneItemsClasses.Emotion
+import ru.allin.emo.OneItemsClasses.Emotion
 
 
 class ChooseEmmo : AppCompatActivity() {

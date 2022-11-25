@@ -1,13 +1,13 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.allinemmo.Adapter.EmotionsListAdapter
-import com.example.allinemmo.DataBase.DBHelper
-import com.example.allinemmo.OneItemsClasses.Emotion
+import ru.allin.emo.Adapter.EmotionsListAdapter
+import ru.allin.emo.DataBase.DBHelper
+import ru.allin.emo.OneItemsClasses.Emotion
 import java.util.*
 import kotlin.collections.ArrayList
 

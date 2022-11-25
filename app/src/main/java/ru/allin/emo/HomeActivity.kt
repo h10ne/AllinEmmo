@@ -1,10 +1,10 @@
-package com.example.allinemmo
+package ru.allin.emo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.allinemmo.Adapter.NumberAdapter
+import ru.allin.emo.Adapter.NumberAdapter
 
 
 class HomeActivity : AppCompatActivity() {
