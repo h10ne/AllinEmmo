@@ -11,7 +11,12 @@ import ru.allin.emo.DataBase.DBHelper
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    var wasClicked = false
+    
+    companion object
+    {
+        var wasClicked = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             SoundHelper.playClickSound(this)
             wasClicked = true
             startActivity(intent)
-            finish()
         }
 
         Handler().postDelayed({
