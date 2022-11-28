@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.allin.emo.ChooseEmmo
-import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
 import ru.allin.emo.EmotionListActivity
+import ru.allin.emo.Helpers.ImageToDrawableConverter
 import ru.allin.emo.OneItemsClasses.Emotion
 import ru.allin.emo.R
 import ru.allin.emo.SoundHelper
-import com.squareup.picasso.Picasso
 
 /**
  * Адаптер для иконок эмоций за месяц
@@ -38,6 +38,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         }
     }
 
+
     fun setItems(marks: ArrayList<Emotion?>) {
         clearItems()
         this.emmotions.addAll(marks)
@@ -58,10 +59,10 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         holder.bind(emmotions[position])
 
         holder.itemView.setOnClickListener {
-            SoundHelper.playClickSound(it.context)
             val emmo = emmotions[position]
             if(emmo != null)
             {
+                SoundHelper.playClickSound(it.context)
                 if(emmo.emotionId == 0)
                 {
                     val intent =  Intent(it.context, ChooseEmmo::class.java)

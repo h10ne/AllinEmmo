@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ class NumberFragment : Fragment() {
     private lateinit var year:TextView
     private lateinit var month:TextView
     private lateinit var recyclerEmo:RecyclerView
+    private lateinit var catSleep:ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +39,16 @@ class NumberFragment : Fragment() {
             year = view.findViewById<TextView>(R.id.yearTV)
             month = view.findViewById<TextView>(R.id.monthTV)
             recyclerEmo = view.findViewById<RecyclerView>(R.id.emmoRV)
+            catSleep = view.findViewById(R.id.sleep_cat)
             yearAndMonth = getString(ARG_OBJECT).toString().split(" ")
             countDaysInMonth = getInt(DAYS)
 
             year.text = yearAndMonth[0]
             month.text = yearAndMonth[1]
+
+            catSleep.setOnClickListener{
+                SoundHelper.meowSound(it.context)
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import ru.allin.emo.DataBase.DBHelper
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    
+
     companion object
     {
         var wasClicked = false
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             SoundHelper.playClickSound(this)
             wasClicked = true
             startActivity(intent)
+            finish()
         }
 
         Handler().postDelayed({

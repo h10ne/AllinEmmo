@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -20,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
-import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
+import ru.allin.emo.Helpers.ImageToDrawableConverter
 import ru.allin.emo.DataBase.DBHelper
 import ru.allin.emo.OneItemsClasses.Emotion
 import ru.allin.emo.SoundHelper.playClickSound

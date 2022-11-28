@@ -1,4 +1,4 @@
-package ru.allin.emo.CompanionObjects
+package ru.allin.emo.Helpers
 
 import ru.allin.emo.R
 

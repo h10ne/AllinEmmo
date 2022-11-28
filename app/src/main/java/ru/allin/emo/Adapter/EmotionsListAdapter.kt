@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import ru.allin.emo.CompanionObjects.ImageToDrawableConverter
+import ru.allin.emo.Helpers.ImageToDrawableConverter
 import ru.allin.emo.DataBase.DBHelper
 import ru.allin.emo.EditEmotion
 import ru.allin.emo.EmotionListActivity
