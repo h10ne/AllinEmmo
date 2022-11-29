@@ -1,5 +1,6 @@
 package ru.allin.emo.Adapter
 
+import android.app.ActivityOptions
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.BitmapFactory

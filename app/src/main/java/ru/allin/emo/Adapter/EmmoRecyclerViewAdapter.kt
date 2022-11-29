@@ -1,5 +1,6 @@
 package ru.allin.emo.Adapter
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import ru.allin.emo.Helpers.ImageToDrawableConverter
 import ru.allin.emo.OneItemsClasses.Emotion
 import ru.allin.emo.R
 import ru.allin.emo.SoundHelper
+
 
 /**
  * Адаптер для иконок эмоций за месяц
@@ -71,6 +73,10 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                 }
                 else
                 {
+                    /*val bndlanimation = ActivityOptions.makeCustomAnimation(
+                        it.context,
+                        R.anim.zoomin, R.anim.zoomout
+                    ).toBundle()*/
                     val intent =  Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
 
