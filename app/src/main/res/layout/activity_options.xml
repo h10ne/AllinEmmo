@@ -12,19 +12,90 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <CheckedTextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Воспроизводить звуки" />
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:thumb="@drawable/switch_thumb"
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Воспроизводить звуки"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/plySoundsSwitcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:orientation="horizontal"
+            android:onClick="DoExport"
+            android:padding="10dp">
 
-            android:text="Switch" />
+            <TextView
+                android:padding="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Экспортировать данные"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:onClick="DoExport"
+                android:id="@+id/export_btn"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/export_icon" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:onClick="DoImport"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:padding="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Импортировать данные"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/import_btn"
+                android:onClick="DoImport"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/import_icon" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

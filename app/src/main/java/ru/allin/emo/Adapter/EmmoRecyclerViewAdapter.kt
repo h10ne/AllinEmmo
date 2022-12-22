@@ -22,20 +22,19 @@ import ru.allin.emo.SoundHelper
  */
 class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.EmmoHolder>() {
     private var emmotions: ArrayList<Emotion?> = ArrayList()
-    class EmmoHolder(item:View) : RecyclerView.ViewHolder(item)
-    {
+
+    class EmmoHolder(item: View) : RecyclerView.ViewHolder(item) {
         val catImg = item.findViewById<ImageView>(R.id.oneEmmo)
         val dayCount = item.findViewById<TextView>(R.id.countDay)
-        fun bind(emmo:Emotion?)
-        {
-            if(emmo == null)
-            {
+        fun bind(emmo: Emotion?) {
+            if (emmo == null) {
                 return
             }
 
             dayCount.text = emmo.day.toString()
 
-            Picasso.get().load(ImageToDrawableConverter.fromImageIdToDrawable(emmo.catEmoId)).fit().centerCrop()
+            Picasso.get().load(ImageToDrawableConverter.fromImageIdToDrawable(emmo.catEmoId)).fit()
+                .centerCrop()
                 .into(catImg)
         }
     }
@@ -62,22 +61,18 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
 
         holder.itemView.setOnClickListener {
             val emmo = emmotions[position]
-            if(emmo != null)
-            {
+            if (emmo != null) {
                 SoundHelper.playClickSound(it.context)
-                if(emmo.emotionId == 0)
-                {
-                    val intent =  Intent(it.context, ChooseEmmo::class.java)
+                if (emmo.emotionId == 0) {
+                    val intent = Intent(it.context, ChooseEmmo::class.java)
                     intent.putExtra("emmo", emmo)
                     it.context.startActivity(intent)
-                }
-                else
-                {
+                } else {
                     /*val bndlanimation = ActivityOptions.makeCustomAnimation(
                         it.context,
                         R.anim.zoomin, R.anim.zoomout
                     ).toBundle()*/
-                    val intent =  Intent(it.context, EmotionListActivity::class.java)
+                    val intent = Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
 
                     intent.putExtra("pos", getScrollablePosition(position))
@@ -90,35 +85,31 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
     /**
      * Возвращает позицию, на которую должно прокрутиться окно эмоций за месяц
      */
-    private fun getScrollablePosition(position: Int):Int
-    {
-        var pos = 0
-        for (i in 1..position)
-        {
-            if(emmotions[i]!!.emotionId != 0)
-            {
-                pos++
+    private fun getScrollablePosition(position: Int): Int {
+        try {
+            var pos = 0
+            for (i in 1..position) {
+                if (emmotions[i]!!.emotionId != 0) {
+                    pos++
+                }
             }
-        }
 
-        var allEmmoCount = 0
-        for (i in 1..position)
-        {
-            if(emmotions[i]!!.emotionId != 0)
-            {
-                allEmmoCount++
+            var allEmmoCount = 0
+            for (i in 1..position) {
+                if (emmotions[i]!!.emotionId != 0) {
+                    allEmmoCount++
+                }
             }
-        }
 
-        if(pos == 1)
-        {
-            pos = 0
+            if (pos == 1) {
+                pos = 0
+            } else if (pos == allEmmoCount) {
+                pos--
+            }
+            return pos
+        } catch (ex: Exception) {
+            return position
         }
-        else if(pos == allEmmoCount)
-        {
-            pos--
-        }
-        return pos
     }
 
 

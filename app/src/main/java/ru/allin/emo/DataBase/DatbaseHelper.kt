@@ -143,6 +143,42 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
+    fun GetAllEmmotions():List<Emotion>
+    {
+        val list = ArrayList<Emotion>()
+        val db = this.readableDatabase
+        db.rawQuery(
+            "SELECT * FROM $TABLE_NAME ORDER BY $DATE",
+            arrayOf()
+        )
+            .use {
+                if (it.moveToFirst()) {
+                    list.add(formatCursor(it))
+                }
+                while (it.moveToNext()) {
+                    list.add(formatCursor(it))
+                }
+                it.close()
+            }
+        db.close()
+        return list
+    }
+
+    fun getConfigValue(name:String):String
+    {
+        val db = this.readableDatabase
+        db.rawQuery("SELECT value FROM CONFIG WHERE name = ?", arrayOf(name.toString()))
+            .use {
+                if (it.moveToFirst()) {
+                    val value = it.getString(2)
+                    it.close()
+                    db.close()
+                    return value
+                }
+            }
+        return ""
+    }
+
     /**
      * Выполнить миграции
      */

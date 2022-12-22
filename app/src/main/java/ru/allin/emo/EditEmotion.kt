@@ -260,7 +260,8 @@ class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelected
 
         val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
         )
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
