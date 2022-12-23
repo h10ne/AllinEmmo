@@ -86,6 +86,7 @@ class OptionsActivity : AppCompatActivity() {
             }
         }
 
+        Toast.makeText(this, "Данные успешно импортированы!", Toast.LENGTH_LONG).show()
     }
 
     fun DoExport(view: View) {
