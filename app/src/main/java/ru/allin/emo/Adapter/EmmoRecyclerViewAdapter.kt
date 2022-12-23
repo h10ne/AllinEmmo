@@ -1,16 +1,17 @@
 package ru.allin.emo.Adapter
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.allin.emo.ChooseEmmo
 import ru.allin.emo.EmotionListActivity
+import ru.allin.emo.Helpers.Config
 import ru.allin.emo.Helpers.ImageToDrawableConverter
 import ru.allin.emo.OneItemsClasses.Emotion
 import ru.allin.emo.R
@@ -75,7 +76,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
                     val intent = Intent(it.context, EmotionListActivity::class.java)
                     intent.putExtra("date", emmo.date)
 
-                    intent.putExtra("pos", getScrollablePosition(position))
+                    intent.putExtra("pos", getScrollablePosition(position, it))
                     it.context.startActivity(intent)
                 }
             }
@@ -85,7 +86,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
     /**
      * Возвращает позицию, на которую должно прокрутиться окно эмоций за месяц
      */
-    private fun getScrollablePosition(position: Int): Int {
+    private fun getScrollablePosition(position: Int, view: View): Int {
         try {
             var pos = 0
             for (i in 1..position) {
@@ -108,6 +109,10 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
             }
             return pos
         } catch (ex: Exception) {
+            if(Config.ShowDebug)
+            {
+                Toast.makeText(view.context, ex.toString(), Toast.LENGTH_LONG).show()
+            }
             return position
         }
     }

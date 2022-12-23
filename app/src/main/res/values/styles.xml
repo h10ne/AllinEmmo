@@ -18,4 +18,11 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
+
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/pink_darkest</item>
+        <item name="colorSwitchThumbNormal">#edaec1</item>
+    </style>
+
 </resources>

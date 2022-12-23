@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import ru.allin.emo.DataBase.DBHelper
+import ru.allin.emo.Helpers.Config
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         val helper = DBHelper(this, null)
         helper.applyMigrations()
 
+        InitConfig(helper)
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         val  activity = findViewById<ConstraintLayout>(R.id.mainActivityConstraint)
         val intent = Intent(this, HomeActivity::class.java)
@@ -44,6 +47,11 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }, 5000)
+    }
+
+    private fun InitConfig(helper: DBHelper) {
+        Config.PlaySound = helper.getConfigValue("playClickSound", "true").toBoolean()
+        Config.ShowDebug = helper.getConfigValue("showDebug", "false").toBoolean()
     }
 
     /**

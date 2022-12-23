@@ -26,10 +26,35 @@
                 android:textSize="22sp" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/plySoundsSwitcher"
+                android:id="@+id/playSoundsSwitcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:theme="@style/SwitchStyle"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Показывать отладочную \nинормацию"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/showDebug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/SwitchStyle"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

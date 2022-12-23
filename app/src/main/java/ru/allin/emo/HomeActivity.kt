@@ -28,6 +28,7 @@ class HomeActivity : AppCompatActivity() {
         val optionsBtn = findViewById<ImageButton>(R.id.options_btn)
 
         optionsBtn.setOnClickListener {
+            SoundHelper.playClickSound(this)
             val intent = Intent(it.context, OptionsActivity::class.java)
             startActivity(intent)
         }

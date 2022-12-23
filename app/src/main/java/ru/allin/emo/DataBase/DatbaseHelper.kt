@@ -5,7 +5,9 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
 import ru.allin.emo.DataBase.Migrations.Migration_202211242
+import ru.allin.emo.DataBase.Migrations.Migration_20221219
 import ru.allin.emo.OneItemsClasses.Emotion
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -15,7 +17,7 @@ import kotlin.collections.ArrayList
 /**
  * Вспомогательный класс для взаимодействия с бд
  */
-class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
+class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -164,19 +166,55 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
-    fun getConfigValue(name:String):String
+    fun getConfigValue(name:String, defaultValue: String):String
     {
         val db = this.readableDatabase
         db.rawQuery("SELECT value FROM CONFIG WHERE name = ?", arrayOf(name.toString()))
             .use {
                 if (it.moveToFirst()) {
-                    val value = it.getString(2)
+                    val value = it.getString(0)
                     it.close()
                     db.close()
                     return value
                 }
             }
-        return ""
+        return defaultValue
+    }
+
+    fun setConfigValue(name:String, value:String)
+    {
+        var db = this.writableDatabase
+        try
+        {
+            var exist = false
+            db.rawQuery("SELECT COUNT(*) FROM CONFIG WHERE name = ?", arrayOf(name))
+                .use{
+                    if(it.moveToFirst())
+                    {
+                        val value = it.getInt(0)
+                        if(value > 0)
+                        {
+                            exist = true
+                        }
+                        it.close()
+                    }
+                }
+
+            if(exist)
+            {
+                db.execSQL("update CONFIG set value = '$value' where name = '$name'")
+            }
+            else
+            {
+                db.execSQL("insert into CONFIG values ('$name', '$value')")
+            }
+            db.close()
+        }
+        catch (ex:Exception)
+        {
+            Toast.makeText(context, "Что-то пошло не так.\n${ex}", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     /**
@@ -185,6 +223,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun applyMigrations() {
         val write = this.writableDatabase
         Migration_202211242().doMigration(write)
+        Migration_20221219().doMigration(write)
         write.close()
     }
 
