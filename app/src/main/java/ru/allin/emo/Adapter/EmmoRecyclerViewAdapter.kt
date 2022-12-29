@@ -87,21 +87,20 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
      * Возвращает позицию, на которую должно прокрутиться окно эмоций за месяц
      */
     private fun getScrollablePosition(position: Int, view: View): Int {
+        var pos = 0
         try {
-            var pos = 0
             for (i in 1..position) {
-                if (emmotions[i]!!.emotionId != 0) {
+                if (emmotions[i]!= null && emmotions[i]!!.emotionId != 0) {
                     pos++
                 }
             }
 
             var allEmmoCount = 0
             for (i in 1..position) {
-                if (emmotions[i]!!.emotionId != 0) {
+                if (emmotions[i]!= null && emmotions[i]!!.emotionId != 0) {
                     allEmmoCount++
                 }
             }
-
             if (pos == 1) {
                 pos = 0
             } else if (pos == allEmmoCount) {
@@ -111,7 +110,7 @@ class EmmoRecyclerViewAdapter : RecyclerView.Adapter<EmmoRecyclerViewAdapter.Emm
         } catch (ex: Exception) {
             if(Config.ShowDebug)
             {
-                Toast.makeText(view.context, ex.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(view.context, "$ex\n$pos ", Toast.LENGTH_LONG).show()
             }
             return position
         }
