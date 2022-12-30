@@ -30,10 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:theme="@style/SwitchStyle"/>
+                android:theme="@style/SwitchStyle" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -54,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:theme="@style/SwitchStyle"/>
+                android:theme="@style/SwitchStyle" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -62,13 +61,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:onClick="DoExport"
             android:padding="10dp">
 
             <TextView
-                android:padding="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Уведомлять, если \nне отмечена эмоция"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/useNotify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/SwitchStyle" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/setTimeButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:scaleType="fitXY"
+                android:src="@drawable/clock" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="DoExport"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
                 android:text="Экспортировать данные"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
@@ -76,14 +112,14 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageButton
-                android:onClick="DoExport"
                 android:id="@+id/export_btn"
                 android:layout_width="35dp"
                 android:layout_height="40dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:onClick="DoExport"
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/export_icon" />
@@ -92,15 +128,15 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:onClick="DoImport"
             android:layout_height="wrap_content"
+            android:onClick="DoImport"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <TextView
-                android:padding="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="4dp"
                 android:text="Импортировать данные"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
@@ -108,14 +144,14 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/import_btn"
-                android:onClick="DoImport"
                 android:layout_width="35dp"
                 android:layout_height="40dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:onClick="DoImport"
                 android:padding="4dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/import_icon" />

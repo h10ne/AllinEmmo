@@ -6,12 +6,16 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import ru.allin.emo.DataBase.DBHelper
 import ru.allin.emo.Helpers.Config
+import ru.allin.emo.Helpers.SchedulerNotifyHelper
 import ru.allin.emo.OneItemsClasses.Emotion
 import java.io.*
 import java.text.DateFormat
@@ -25,9 +29,12 @@ class OptionsActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val switchSound = findViewById<SwitchCompat>(R.id.playSoundsSwitcher)
         val switchDebug = findViewById<SwitchCompat>(R.id.showDebug)
+        val switchNotify = findViewById<SwitchCompat>(R.id.useNotify)
+        val setNotifyTimeBtn = findViewById<ImageButton>(R.id.setTimeButton)
 
         switchSound.isChecked = Config.PlaySound
         switchDebug.isChecked = Config.ShowDebug
+        switchNotify.isChecked = Config.UseNotify
 
         switchDebug.setOnCheckedChangeListener { buttonView, isChecked ->
             val db = DBHelper(this, null)
@@ -42,7 +49,47 @@ class OptionsActivity : AppCompatActivity() {
             Config.PlaySound = buttonView.isChecked
             SoundHelper.playClickSound(this)
         }
+
+        switchNotify.setOnCheckedChangeListener { buttonView, isChecked ->
+            val db = DBHelper(this, null)
+            db.setConfigValue("useNotify", buttonView.isChecked.toString())
+            Config.UseNotify = buttonView.isChecked
+            //setNotifyTimeBtn.isEnabled = Config.UseNotify
+            //switchColorFilter(setNotifyTimeBtn, Config.UseNotify)
+            SoundHelper.playClickSound(this)
+        }
+
+        /*setNotifyTimeBtn.isEnabled = Config.UseNotify
+        switchColorFilter(setNotifyTimeBtn, Config.UseNotify)*/
+        setNotifyTimeBtn.setOnClickListener {
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(Config.NotifyTime.split(':')[0].toInt())
+                    .setMinute(Config.NotifyTime.split(':')[1].toInt())
+                    .setTitleText("Введите время, в которое отправлять уведомление")
+                    .build()
+
+            picker.addOnPositiveButtonClickListener {
+                val db = DBHelper(this, null)
+                val i = 0
+                val hour = picker.hour
+                val min = picker.minute
+                Config.NotifyTime = "$hour:$min"
+                db.setConfigValue("notifyTime", "$hour:$min")
+                SchedulerNotifyHelper(this).schedulePushNotifications()
+            }
+            picker.show(supportFragmentManager, "")
+        }
+
     }
+
+    /*fun switchColorFilter(button: ImageButton, isEnabled: Boolean) {
+        if(!isEnabled)
+            button.setColorFilter(Color.argb(255, 13, 14, 15))
+        else
+            button.setColorFilter(Color.argb(0, 0, 0, 0))
+    }*/
 
     fun DoImport(view: View) {
         SoundHelper.playClickSound(this)
@@ -62,7 +109,8 @@ class OptionsActivity : AppCompatActivity() {
         val path = data?.data?.path!!
 
 
-        val publickDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path
+        val publickDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).path
         val pathWithoutSpecial = path.substring(path.indexOf(':') + 1)
         val publicWithoutSpecial = publickDir.substring(0, publickDir.lastIndexOf('/') + 1)
         val truePath = publicWithoutSpecial + pathWithoutSpecial
@@ -76,13 +124,12 @@ class OptionsActivity : AppCompatActivity() {
         fileDatas.forEach {
             val emoPaths = it.split(';')
 
-            if(emoPaths.size >= 3)
-            {
+            if (emoPaths.size >= 3) {
                 val formatter: DateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                 val dateField = formatter.parse(emoPaths[0])
 
                 val emo = Emotion(0, emoPaths[1].toInt(), emoPaths[2], dateField, 0, "")
-                db.addEmmotion(emo)
+                db.addEmotion(emo)
             }
         }
 
@@ -94,7 +141,7 @@ class OptionsActivity : AppCompatActivity() {
         checkPermissions()
         val sb = java.lang.StringBuilder()
         val db = DBHelper(this, null)
-        val emos = db.GetAllEmmotions()
+        val emos = db.GetAllEmotions()
 
         val sdfdmy = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         emos.forEach {

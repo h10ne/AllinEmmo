@@ -84,7 +84,7 @@ class NumberFragment : Fragment() {
         val list = ArrayList<Emotion>()
 
         val helper = DBHelper(requireContext(), null)
-        val emmoList = helper.getEmmoByYearAndMonth(year, month).toSet()
+        val emmoList = helper.getEmoByYearAndMonth(year, month).toSet()
 
         for (i in 1..count) {
             val emmotion = emmoList.find {

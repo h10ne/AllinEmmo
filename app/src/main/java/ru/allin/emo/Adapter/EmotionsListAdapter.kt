@@ -1,6 +1,5 @@
 package ru.allin.emo.Adapter
 
-import android.app.ActivityOptions
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -120,7 +119,7 @@ class EmotionsListAdapter(private val emotionListActivity: EmotionListActivity) 
             yesBtn.setOnClickListener {
                 SoundHelper.playClickSound(emotionListActivity)
                 val db = DBHelper(emotionListActivity.baseContext, null)
-                db.deleteEmmoById(emmo.emotionId)
+                db.deleteEmoById(emmo.emotionId)
                 adapter.removeItem(adapterPosition)
                 dialog.dismiss()
             }

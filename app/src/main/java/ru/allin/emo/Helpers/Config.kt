@@ -5,5 +5,7 @@ class Config {
     companion object {
         var PlaySound = false
         var ShowDebug = false
+        var UseNotify = false
+        var NotifyTime = ""
     }
 }

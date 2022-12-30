@@ -241,9 +241,9 @@ class EditEmotion : AppCompatActivity(), BottomSheetImagePicker.OnImagesSelected
     private fun saveToDb(emmotion: Emotion) {
         val helper = DBHelper(baseContext, null)
         if (emmotion.emotionId == 0) {
-            helper.addEmmotion(emmotion)
+            helper.addEmotion(emmotion)
         } else {
-            helper.updateEmmotion(emmotion)
+            helper.updateEmotion(emmotion)
 
         }
         finish()

@@ -56,7 +56,7 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
     /**
      * Добавить запись об эмоции
      */
-    fun addEmmotion(emo: Emotion) {
+    fun addEmotion(emo: Emotion) {
         val db = this.writableDatabase
         val isInserted = db.insert(TABLE_NAME, null, createValues(emo))
         db.close()
@@ -65,7 +65,7 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
     /**
      * Обновить запись об эмоции
      */
-    fun updateEmmotion(emo: Emotion) {
+    fun updateEmotion(emo: Emotion) {
 
         val db = this.writableDatabase
         db.update(
@@ -103,12 +103,12 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
     /**
      * Удалить эмоцию по ее ид
      */
-    fun deleteEmmoById(id: Int): Boolean {
+    fun deleteEmoById(id: Int): Boolean {
         val db = this.writableDatabase
         return db.delete(TABLE_NAME, "$ID_COL = ?", arrayOf(id.toString())) > 0
     }
 
-    fun getEmmoById(emmoId: Int): Emotion? {
+    fun getEmoById(emmoId: Int): Emotion? {
         val db = this.readableDatabase
         db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $ID_COL = ?", arrayOf(emmoId.toString()))
             .use {
@@ -125,7 +125,7 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
     /**
      * Получить информацию о всех существующих эмоциях за год [year] и месяц [month] из базы
      */
-    fun getEmmoByYearAndMonth(year: Int, month: Int): ArrayList<Emotion> {
+    fun getEmoByYearAndMonth(year: Int, month: Int): ArrayList<Emotion> {
         val list = ArrayList<Emotion>()
         val db = this.readableDatabase
         db.rawQuery(
@@ -145,8 +145,35 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
-    fun GetAllEmmotions():List<Emotion>
-    {
+    fun isEmoExistToday(): Boolean {
+        val db = this.readableDatabase
+        val cal = Calendar.getInstance(Locale.getDefault())
+
+        val month = cal.get(Calendar.MONTH) + 1
+        val year = cal.get(Calendar.YEAR)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+
+        var result = false
+
+        db.rawQuery(
+            "SELECT * FROM $TABLE_NAME WHERE $MONTH = ? AND $YEAR = ? AND $DAY = ?",
+            arrayOf(
+                month.toString(),
+                year.toString(),
+                day.toString()
+            )
+        )
+            .use {
+                if (it.moveToFirst()) {
+                    result = true
+                }
+                it.close()
+            }
+        db.close()
+        return result
+    }
+
+    fun GetAllEmotions(): List<Emotion> {
         val list = ArrayList<Emotion>()
         val db = this.readableDatabase
         db.rawQuery(
@@ -166,8 +193,7 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return list
     }
 
-    fun getConfigValue(name:String, defaultValue: String):String
-    {
+    fun getConfigValue(name: String, defaultValue: String): String {
         val db = this.readableDatabase
         db.rawQuery("SELECT value FROM CONFIG WHERE name = ?", arrayOf(name.toString()))
             .use {
@@ -181,37 +207,28 @@ class DBHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return defaultValue
     }
 
-    fun setConfigValue(name:String, value:String)
-    {
+    fun setConfigValue(name: String, value: String) {
         var db = this.writableDatabase
-        try
-        {
+        try {
             var exist = false
             db.rawQuery("SELECT COUNT(*) FROM CONFIG WHERE name = ?", arrayOf(name))
-                .use{
-                    if(it.moveToFirst())
-                    {
+                .use {
+                    if (it.moveToFirst()) {
                         val value = it.getInt(0)
-                        if(value > 0)
-                        {
+                        if (value > 0) {
                             exist = true
                         }
                         it.close()
                     }
                 }
 
-            if(exist)
-            {
+            if (exist) {
                 db.execSQL("update CONFIG set value = '$value' where name = '$name'")
-            }
-            else
-            {
+            } else {
                 db.execSQL("insert into CONFIG values ('$name', '$value')")
             }
             db.close()
-        }
-        catch (ex:Exception)
-        {
+        } catch (ex: Exception) {
             Toast.makeText(context, "Что-то пошло не так.\n${ex}", Toast.LENGTH_LONG).show()
         }
 

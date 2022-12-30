@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     private fun InitConfig(helper: DBHelper) {
         Config.PlaySound = helper.getConfigValue("playClickSound", "true").toBoolean()
         Config.ShowDebug = helper.getConfigValue("showDebug", "false").toBoolean()
+        Config.UseNotify = helper.getConfigValue("useNotify", "false").toBoolean()
+        Config.NotifyTime = helper.getConfigValue("notifyTime", "12:30")
     }
 
     /**

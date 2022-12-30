@@ -50,6 +50,6 @@ class EmotionListActivity : AppCompatActivity() {
      */
     private fun getMarks(year: Int, month: Int): ArrayList<Emotion> {
         val db = DBHelper(this.baseContext, null)
-        return db.getEmmoByYearAndMonth(year, month)
+        return db.getEmoByYearAndMonth(year, month)
     }
 }
