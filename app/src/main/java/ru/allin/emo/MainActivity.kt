@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         Config.ShowDebug = helper.getConfigValue("showDebug", "false").toBoolean()
         Config.UseNotify = helper.getConfigValue("useNotify", "false").toBoolean()
         Config.NotifyTime = helper.getConfigValue("notifyTime", "12:30")
+        Config.NotifyPlaySound = helper.getConfigValue("notifyPlaySound", "true").toBoolean()
+        Config.NotifyVibro = helper.getConfigValue("notifyVibro", "true").toBoolean()
     }
 
     /**

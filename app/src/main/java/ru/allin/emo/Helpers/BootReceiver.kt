@@ -29,13 +29,16 @@ class BootReceiver() : BroadcastReceiver() {
             .setTitle("Уведомление")
             .setContent("Кажется, вы забыли отметить эмоцию за сегодня. Отметь сейчас, а то забудешь!")
             .setSmallIcon(R.mipmap.ic_launcher)
-            .enableVibration(true)
+            .enableVibration(Config.NotifyVibro)
             .setColor(R.color.pink)
             .show()
         try {
-            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val r = RingtoneManager.getRingtone(context, notification)
-            r.play()
+            if (Config.NotifyPlaySound)
+            {
+                val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val r = RingtoneManager.getRingtone(context, notification)
+                r.play()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -53,7 +56,10 @@ class SchedulerNotifyHelper(val context: Context)
 
     fun schedulePushNotifications() {
         val calendar = GregorianCalendar.getInstance().apply {
-
+            if (get(Calendar.HOUR_OF_DAY) >= Config.NotifyTime.split(':')[0].toInt()) {
+                if((get(Calendar.MINUTE) >= Config.NotifyTime.split(':')[1].toInt()))
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
             set(Calendar.HOUR_OF_DAY, Config.NotifyTime.split(':')[0].toInt())
             set(Calendar.MINUTE, Config.NotifyTime.split(':')[1].toInt())
             set(Calendar.SECOND, 0)

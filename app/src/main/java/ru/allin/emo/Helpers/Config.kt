@@ -7,5 +7,7 @@ class Config {
         var ShowDebug = false
         var UseNotify = false
         var NotifyTime = ""
+        var NotifyPlaySound = true
+        var NotifyVibro = true
     }
 }
